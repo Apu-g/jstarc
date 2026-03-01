@@ -1,0 +1,60 @@
+[
+    {
+        "id": "jai",
+        "name": "Master Jai Kumar Kannan",
+        "designation": "Head Instructor - 5th Dan Black Belt",
+        "rank": "5th Dan Black Belt",
+        "src": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/jaimaster.jpg",
+        "img": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/jaimaster.jpg",
+        "facePos": "50% 10%",
+        "quote": "Dedication and discipline are the pillars of success. Taekwondo is not just a sport, it's a way of life.",
+        "bio": "Head Instructor with over 20 years of experience. 5th Dan Black Belt specializing in traditional Taekwondo values and competitive sparring.",
+        "achievements": [
+            "5th Dan Black Belt",
+            "National Referee",
+            "State Coach"
+        ]
+    },
+    {
+        "id": "nilesh",
+        "name": "Master Nilesh Jalnawala",
+        "designation": "Senior Coach - 4th Dan Black Belt",
+        "rank": "4th Dan Black Belt",
+        "src": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/nilesh%20master.jpg",
+        "img": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/nilesh%20master.jpg",
+        "quote": "Striving for excellence in every kick and punch. Focus, power, and respect define our practice.",
+        "bio": "Senior Coach dedicated to student development. 4th Dan Black Belt with a focus on technical perfection and poomsae.",
+        "achievements": [
+            "4th Dan Black Belt",
+            "Senior Coach"
+        ]
+    },
+    {
+        "id": "kumar_imam",
+        "name": "Master Kumar Imam",
+        "designation": "Senior Instructor",
+        "rank": "Senior Instructor",
+        "src": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/kumarimam.jpg",
+        "img": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/kumarimam.jpg",
+        "quote": "Empowering students through the art of self-defense. Building confidence one step at a time.",
+        "bio": "Senior Instructor passionate about self-defense and confidence building.",
+        "achievements": [
+            "Senior Instructor",
+            "Self-Defense Expert"
+        ]
+    },
+    {
+        "id": "balendra",
+        "name": "Master Balendra",
+        "designation": "Instructor",
+        "rank": "Instructor",
+        "src": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/balendramaster.jpeg",
+        "img": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/balendramaster.jpeg",
+        "quote": "Consistent effort brings consistent results. Train hard, stay humble, and grow strong.",
+        "bio": "Instructor committed to consistent training and humble growth.",
+        "achievements": [
+            "Instructor",
+            "Training Specialist"
+        ]
+    }
+]

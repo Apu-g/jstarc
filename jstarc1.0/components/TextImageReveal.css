@@ -1,0 +1,107 @@
+/* ============================================
+   TextImageReveal — GSAP Scroll-Triggered
+   ============================================ */
+
+.text-reveal-section {
+    width: 100%;
+    padding: 4rem 0;
+    background-color: #FFFDF5;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-reveal-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.text-reveal-intro-tag {
+    font-family: var(--font-mono, 'JetBrains Mono'), monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #121212;
+    display: inline-block;
+    background: #FBFF48;
+    border: 2px solid #000;
+    padding: 6px 16px;
+    font-weight: 700;
+    box-shadow: 2px 2px 0px 0px #000;
+}
+
+.text-reveal-container {
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
+}
+
+.text-reveal-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 0.5rem;
+}
+
+.text-reveal-word {
+    font-family: var(--font-display, 'Space Grotesk'), sans-serif;
+    font-size: clamp(2.5rem, 7.5vw, 7.5rem);
+    font-weight: 700;
+    letter-spacing: -3px;
+    display: inline-block;
+    overflow: hidden;
+    color: #121212;
+    line-height: 1.1;
+}
+
+.text-reveal-img-span {
+    width: 0;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    border: 3px solid #000;
+    box-shadow: 3px 3px 0px 0px #000;
+}
+
+.text-reveal-img-span img {
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    object-fit: cover;
+    object-position: center center;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    .text-reveal-word {
+        font-size: clamp(1.5rem, 8vw, 3rem);
+        letter-spacing: -1px;
+    }
+
+    .text-reveal-img-span {
+        height: 40px !important;
+        max-width: 80px !important;
+    }
+
+    .text-reveal-img-span img {
+        width: 120px !important;
+    }
+
+    .text-reveal-line {
+        gap: 10px;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .text-reveal-container {
+        min-height: 40vh;
+        padding-top: 4rem;
+    }
+}

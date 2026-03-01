@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* ========================================
+   JSTARC NeoBrutalist Design System
+   ======================================== */
+
+:root {
+  /* NeoBrut Colors */
+  --neo-white: #FFFDF5;
+  --neo-black: #121212;
+  --neo-yellow: #FBFF48;
+  --neo-pink: #FF70A6;
+  --neo-blue: #3B82F6;
+  --neo-green: #33FF57;
+  --neo-purple: #A855F7;
+  --neo-orange: #FF9F1C;
+  --neo-red: #FF2A2A;
+
+  --background: #FFFDF5;
+  --foreground: #121212;
+}
+
+@layer base {
+  body {
+    background-color: #FFFDF5;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: #121212;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #121212;
+  }
+
+  ::selection {
+    background-color: #121212;
+    color: #FBFF48;
+  }
+}
+
+@layer utilities {
+
+  /* NeoBrut Hard Shadows */
+  .shadow-hard {
+    box-shadow: 4px 4px 0px 0px #000;
+  }
+
+  .shadow-hard-sm {
+    box-shadow: 2px 2px 0px 0px #000;
+  }
+
+  .shadow-hard-lg {
+    box-shadow: 8px 8px 0px 0px #000;
+  }
+
+  .shadow-hard-xl {
+    box-shadow: 12px 12px 0px 0px #000;
+  }
+
+  /* Scroll Reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Glitch Hover */
+  .glitch-hover:hover {
+    animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    color: var(--neo-red);
+  }
+
+  /* Glass Cards for light bg */
+  .glass-card {
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #000;
+    background: #fff;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .glass-card:hover {
+    box-shadow: 8px 8px 0px 0px #000;
+    transform: translate(-2px, -2px);
+  }
+
+  /* Neo Accent Borders */
+  .neo-border {
+    border: 3px solid #000;
+  }
+
+  .neo-border-thick {
+    border: 4px solid #000;
+  }
+
+  /* Marquee Animation */
+  .animate-marquee {
+    animation: marquee var(--duration, 40s) linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee-reverse var(--duration, 40s) linear infinite;
+  }
+
+  /* GPU Acceleration */
+  .animate-marquee,
+  .animate-marquee-reverse {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Photo Gallery Focus Effects */
+  .gallery-container:has(.photo-card:hover) .photo-card:not(:hover) {
+    filter: blur(2px) brightness(0.9);
+    transform: scale(0.98);
+  }
+
+  .photo-card {
+    will-change: transform, filter;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+    content-visibility: auto;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .photo-card img {
+    will-change: transform, filter;
+    transform: translateZ(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      transition-duration: 0.1s !important;
+    }
+
+    .photo-card,
+    .photo-card img {
+      transition-duration: 0.1s !important;
+      animation-duration: 0.1s !important;
+    }
+  }
+}
+
+/* Keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(calc(-100% - var(--gap, 1rem)));
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0)
+  }
+
+  20% {
+    transform: translate(-2px, 2px)
+  }
+
+  40% {
+    transform: translate(-2px, -2px)
+  }
+
+  60% {
+    transform: translate(2px, 2px)
+  }
+
+  80% {
+    transform: translate(2px, -2px)
+  }
+
+  100% {
+    transform: translate(0)
+  }
+}
+
+/* Lenis Smooth Scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}

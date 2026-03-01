@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+
+.loader-wrapper {
+  position: relative;
+}
+
+.loader {
+  overflow-x: hidden;
+  position: fixed;
+  z-index: 10000;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+}
+
+.loader-clip {
+  position: absolute;
+  width: 100vw;
+  height: 33.3vh;
+  overflow: clip;
+  z-index: 10000;
+}
+
+.clip-top {
+  top: 0;
+  clip-path: inset(0 0 0 0);
+  background: #000;
+}
+
+.clip-bottom {
+  bottom: 0;
+  clip-path: inset(0 0 0 0);
+  background: #000;
+}
+
+.clip-center {
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 33.4vh;
+  top: 33.4vh;
+}
+
+.clip-center span {
+  color: #000;
+}
+
+.marquee {
+  position: absolute;
+  top: 200%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200vw;
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.marquee-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(2rem, 10vw, 12rem);
+  line-height: 1;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+}
+
+.marquee-container span {
+  font-size: inherit;
+  line-height: 1;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  margin-inline: 25px;
+}
+
+.jstar-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 20;
+  transition: all 0.3s ease;
+  font-size: 50px;
+}

@@ -1,0 +1,188 @@
+/* ------- Osmo Willem Hero Animation ------- */
+
+.willem-header {
+    color: #f4f4f4;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0a0a0a;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+body.intro-playing {
+    overflow: hidden;
+}
+
+/* Loading: Hidden */
+.willem-header.is--hidden {
+    display: none;
+}
+
+.willem-loader {
+    color: #f4f4f4;
+    /* Updated to white for dark theme */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.willem__h1 {
+    white-space: nowrap;
+    justify-content: center;
+    font-size: clamp(8rem, 15vw, 15em);
+    /* Responsive font size */
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: 500;
+    line-height: .75;
+    display: flex;
+    position: relative;
+}
+
+.willem__h1-start {
+    justify-content: flex-end;
+    width: 1.5256em;
+    /* Tuned to match 3 letters precisely based on font */
+    display: flex;
+    overflow: hidden;
+}
+
+.willem__h1-end {
+    justify-content: flex-start;
+    width: 1.525em;
+    /* Tuned to match 3 letters precisely */
+    display: flex;
+    overflow: hidden;
+}
+
+.willem__letter {
+    display: block;
+    position: relative;
+}
+
+.willem__letter-white.is--space {
+    margin-left: .25em;
+}
+
+.willem-loader__box {
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    width: 0;
+    display: flex;
+    position: relative;
+    z-index: 5;
+}
+
+.willem-loader__box-inner {
+    justify-content: center;
+    align-items: center;
+    min-width: 1em;
+    height: 95%;
+    display: flex;
+    position: relative;
+}
+
+.willem__growing-image {
+    justify-content: center;
+    align-items: center;
+    width: 0%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+}
+
+.willem__growing-image-wrap {
+    width: 100%;
+    min-width: 1em;
+    height: 100%;
+    position: absolute;
+}
+
+/* Z-indexing exactly as original */
+.willem__cover-image {
+    pointer-events: none;
+    object-fit: cover;
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.willem__cover-image-extra {
+    pointer-events: none;
+    object-fit: cover;
+    user-select: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.willem__cover-image-extra.is--1 {
+    z-index: 3;
+}
+
+.willem__cover-image-extra.is--2 {
+    z-index: 2;
+}
+
+.willem__cover-image-extra.is--3 {
+    z-index: 1;
+}
+
+/* Final Content State */
+.willem-header__content {
+    flex-flow: column;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    padding: 3em;
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    /* Let clicks pass to header */
+    z-index: 10;
+}
+
+.willem-header__bottom {
+    justify-content: center;
+    width: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2em;
+}
+
+.willem__letter-white {
+    display: block;
+    position: relative;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 991px) {
+    .willem__h1 {
+        font-size: 15vw;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .willem__h1 {
+        font-size: 20vw;
+    }
+}
