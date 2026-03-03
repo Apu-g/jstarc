@@ -45,6 +45,7 @@ export const Affiliations = () => {
                                     src={src}
                                     alt={`Affiliation ${index + 1}`}
                                     className="max-w-full max-h-full object-contain"
+                                    loading="lazy"
                                 />
                             </div>
                         </motion.div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import ScrambledText from "@/components/ui/scrambled-text";
 
@@ -49,28 +49,35 @@ const OrbitingSatellite = ({ image, index, total, angle, radius }) => {
                 src={image}
                 alt={`Team member ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
             />
         </motion.div>
     );
 };
 
 export const DemoTeam = () => {
-    const [angle, setAngle] = useState(0);
+    const angleRef = useRef(0);
     const [dynamicOrbitImages, setDynamicOrbitImages] = useState([]);
     const [radius, setRadius] = useState(200);
+    const containerRef = useRef(null);
+    const rafRef = useRef(null);
 
     useEffect(() => {
-        fetch('/api/marquee')
-            .then(res => res.json())
-            .then(data => {
+        const fetchPhotos = async () => {
+            try {
+                const res = await fetch('/api/marquee');
+                const data = await res.json();
                 if (data?.files?.length > 0) {
                     const photos = data.files.map(f => f.src).filter(Boolean);
                     // Shuffle and select up to 8 random photos
                     const shuffled = [...photos].sort(() => 0.5 - Math.random());
                     setDynamicOrbitImages(shuffled.slice(0, 8));
                 }
-            })
-            .catch(err => console.error("Failed to load demo team photos", err));
+            } catch {
+                // Silent fallback — orbit will remain empty
+            }
+        };
+        fetchPhotos();
 
         // Responsive Radius Support
         const handleResize = () => setRadius(window.innerWidth < 768 ? 140 : 200);
@@ -79,23 +86,44 @@ export const DemoTeam = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // Continuous rotation animation
+    // Continuous rotation animation using ref — no setState per frame
     useEffect(() => {
         const duration = 20000; // 20 seconds for full rotation
-        let startTime = Date.now();
-        let animationFrame;
+        const startTime = Date.now();
 
         const animateOrbit = () => {
             const elapsed = Date.now() - startTime;
             const progress = (elapsed % duration) / duration;
-            setAngle(progress * Math.PI * 2);
-            animationFrame = requestAnimationFrame(animateOrbit);
+            angleRef.current = progress * Math.PI * 2;
+
+            // Directly update satellite positions via DOM transforms
+            if (containerRef.current) {
+                const satellites = containerRef.current.querySelectorAll('[data-satellite]');
+                const total = satellites.length;
+                satellites.forEach((el, index) => {
+                    const itemAngle = angleRef.current + (index / total) * Math.PI * 2;
+                    const x = Math.cos(itemAngle) * radius;
+                    const y = Math.sin(itemAngle) * (radius * 0.35);
+                    const depth = Math.sin(itemAngle);
+                    const scale = 0.6 + (depth + 1) * 0.3;
+                    const opacity = 0.3 + (depth + 1) * 0.35;
+                    const zIndex = Math.round((depth + 1) * 10) + 10;
+
+                    el.style.transform = `translate(${x - 35}px, ${y - 35}px) scale(${scale})`;
+                    el.style.opacity = opacity;
+                    el.style.zIndex = zIndex;
+                });
+            }
+
+            rafRef.current = requestAnimationFrame(animateOrbit);
         };
 
-        animationFrame = requestAnimationFrame(animateOrbit);
+        rafRef.current = requestAnimationFrame(animateOrbit);
 
-        return () => cancelAnimationFrame(animationFrame);
-    }, []);
+        return () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current);
+        };
+    }, [radius, dynamicOrbitImages.length]);
 
     return (
         <section className="py-12 md:py-20 relative overflow-hidden">
@@ -140,17 +168,28 @@ export const DemoTeam = () => {
                             />
                         </motion.div>
 
-                        {/* Orbiting Satellites */}
-                        <div className="absolute inset-0 flex items-center justify-center">
+                        {/* Orbiting Satellites — direct DOM manipulation, no per-frame setState */}
+                        <div ref={containerRef} className="absolute inset-0 flex items-center justify-center">
                             {dynamicOrbitImages.map((img, index) => (
-                                <OrbitingSatellite
+                                <div
                                     key={index}
-                                    image={img}
-                                    index={index}
-                                    total={dynamicOrbitImages.length}
-                                    angle={angle}
-                                    radius={radius}
-                                />
+                                    data-satellite
+                                    className="absolute rounded-full overflow-hidden border-2 border-gray-300 bg-gray-100"
+                                    style={{
+                                        width: 70,
+                                        height: 70,
+                                        left: "50%",
+                                        top: "50%",
+                                        willChange: "transform, opacity",
+                                    }}
+                                >
+                                    <img
+                                        src={img}
+                                        alt={`Team member ${index + 1}`}
+                                        className="w-full h-full object-cover"
+                                        loading="lazy"
+                                    />
+                                </div>
                             ))}
                         </div>
                     </div>

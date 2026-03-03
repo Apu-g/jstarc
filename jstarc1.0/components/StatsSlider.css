@@ -6,13 +6,13 @@
     position: relative;
     width: 100%;
     height: 100vh;
-    background-color: #0a0a0a;
+    background-color: var(--dark-bg, #0a0a0a);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: 2rem 1rem;
+    padding: clamp(1rem, 3vw, 2rem) clamp(0.5rem, 2vw, 1rem);
     z-index: 5;
 }
 
@@ -29,25 +29,25 @@
 .stats-deck-tag {
     font-family: var(--font-mono, 'JetBrains Mono'), monospace;
     font-size: 0.7rem;
-    color: #121212;
+    color: var(--text-primary, #121212);
     text-transform: uppercase;
     letter-spacing: 4px;
-    border: 2px solid #000;
+    border: 2px solid var(--border-dark, #000);
     padding: 6px 16px;
     display: inline-block;
     margin-bottom: 0.5rem;
-    background: #FBFF48;
+    background: var(--neo-yellow, #FBFF48);
     font-weight: bold;
-    box-shadow: 2px 2px 0px 0px #000;
+    box-shadow: 2px 2px 0px 0px var(--border-dark, #000);
 }
 
 .stats-deck-title {
     font-family: 'Bebas Neue', 'Inter', sans-serif;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
-    color: #fff;
+    color: var(--text-on-dark, #fff);
     line-height: 1;
     letter-spacing: 0.02em;
-    text-shadow: 2px 2px 0px #000, 4px 4px 0px var(--neo-red);
+    text-shadow: 2px 2px 0px var(--border-dark, #000), 4px 4px 0px var(--neo-red, #FF2A2A);
 }
 
 .stats-deck-subtitle {
@@ -55,7 +55,7 @@
     bottom: 3%;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-muted-strong, rgba(255, 255, 255, 0.8));
     font-family: 'Inter', sans-serif;
     font-size: 0.85rem;
     letter-spacing: 1px;
@@ -78,14 +78,16 @@
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     overflow: hidden;
-    /* Clean vertical peeling */
+    /* FOUC prevention + GPU acceleration */
     will-change: transform, opacity;
     transform-origin: top center;
+    isolation: isolate;
+    contain: layout style paint;
     box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8),
         0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    background: #111;
+    background: var(--dark-bg-alt, #111);
 }
 
 .stats-deck-card-bg {
@@ -105,26 +107,26 @@
 
 .stats-deck-idx {
     position: absolute;
-    top: 2rem;
-    right: 2.5rem;
+    top: clamp(1rem, 3vw, 2rem);
+    right: clamp(1rem, 3vw, 2.5rem);
     font-family: var(--font-mono, 'JetBrains Mono'), monospace;
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted, rgba(255, 255, 255, 0.5));
     font-weight: 600;
     letter-spacing: 2px;
 }
 
 .stats-deck-card-content {
     position: absolute;
-    bottom: 2.5rem;
-    left: 2.5rem;
-    right: 2.5rem;
+    bottom: clamp(1.5rem, 3vw, 2.5rem);
+    left: clamp(1.5rem, 3vw, 2.5rem);
+    right: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .stats-deck-number {
     font-family: 'Bebas Neue', 'Inter', sans-serif;
     font-size: clamp(4rem, 8vw, 7rem);
-    color: #FBFF48;
+    color: var(--neo-yellow, #FBFF48);
     line-height: 0.9;
     margin-bottom: 0px;
     text-shadow: 0 4px 20px rgba(251, 255, 72, 0.2);
@@ -133,7 +135,7 @@
 .stats-deck-label {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(2rem, 4vw, 3rem);
-    color: #fff;
+    color: var(--text-on-dark, #fff);
     line-height: 1;
     margin-bottom: 0.5rem;
 }
@@ -142,7 +144,7 @@
     font-family: 'Inter', sans-serif;
     font-size: clamp(0.9rem, 1.2vw, 1.1rem);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-muted-light, rgba(255, 255, 255, 0.7));
     max-width: 600px;
     line-height: 1.6;
 }
@@ -168,7 +170,7 @@
 }
 
 .stats-deck-dot.active {
-    background: #FBFF48;
+    background: var(--neo-yellow, #FBFF48);
     box-shadow: 0 0 10px rgba(251, 255, 72, 0.5);
 }
 
@@ -197,17 +199,6 @@
 
     .stats-deck-progress {
         display: none;
-    }
-
-    .stats-deck-idx {
-        top: 1.5rem;
-        right: 1.5rem;
-    }
-
-    .stats-deck-card-content {
-        bottom: 1.5rem;
-        left: 1.5rem;
-        right: 1.5rem;
     }
 }
 

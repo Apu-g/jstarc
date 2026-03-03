@@ -47,7 +47,7 @@ export const Navbar = () => {
                     <Link
                         href="/"
                         className={cn(
-                            "bg-[#FFFDF5] border-3 border-black px-4 py-1 font-[family-name:var(--font-display)] text-2xl font-black shadow-hard",
+                            "bg-[#FFFDF5] border-3 border-black px-4 py-1 font-[family-name:var(--font-display)] text-2xl font-black shadow-hard text-[#121212]",
                             "hover:bg-[#FBFF48] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
                         )}
                     >
@@ -80,7 +80,7 @@ export const Navbar = () => {
 
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden bg-white border-3 border-black p-2 shadow-hard-sm hover:bg-[#FBFF48] transition-colors"
+                        className="md:hidden bg-white border-3 border-black p-2 shadow-hard-sm hover:bg-[#FBFF48] transition-colors min-h-12 min-w-12"
                         onClick={() => setMobileMenuOpen(true)}
                     >
                         <Menu size={24} className="text-[#121212]" />
@@ -117,7 +117,7 @@ export const Navbar = () => {
                                     href={link.href}
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={cn(
-                                        "text-lg font-black uppercase px-4 py-3 border-2 border-black transition-all",
+                                        "text-lg font-black uppercase px-4 py-3 border-2 border-black transition-all min-h-12",
                                         pathname === link.href
                                             ? "bg-black text-white"
                                             : "bg-white text-[#121212] hover:bg-[#FBFF48] hover:translate-x-1"

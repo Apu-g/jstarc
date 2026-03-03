@@ -1,9 +1,9 @@
 "use client";
 
+import React, { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Marquee } from "@/components/ui/marquee";
 import { cn } from "@/lib/utils";
-import { useState, useEffect, useRef } from "react";
 
 // JStarc team photos (Fallback)
 const jstarcPhotos = [
@@ -42,52 +42,18 @@ const jstarcPhotos = [
     "/assets/jstarc_team/fc3a60ca-ee90-425a-8050-01c494a9001e.jpg",
 ];
 
-// Photo card component with enhanced visual effects
-const PhotoCard = ({ src, index }) => {
-    const [isFocused, setIsFocused] = useState(false);
-    const [isZoomed, setIsZoomed] = useState(false);
-    const cardRef = useRef(null);
-
-    // Scroll-triggered zoom animation
-    useEffect(() => {
-        const currentCard = cardRef.current;
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setIsZoomed(true);
-                        setTimeout(() => setIsZoomed(false), 500); // Reset after animation
-                    }
-                });
-            },
-            { threshold: 0.7 } // Trigger when 70% visible
-        );
-
-        if (currentCard) {
-            observer.observe(currentCard);
-        }
-
-        return () => {
-            if (currentCard) {
-                observer.unobserve(currentCard);
-            }
-        };
-    }, []);
-
+// Photo card component — simplified: CSS-only hover, no per-card IntersectionObserver
+const PhotoCard = React.memo(({ src, index }) => {
     return (
         <div
-            ref={cardRef}
             className={cn(
-                "photo-card relative h-16 w-20 md:h-44 md:w-72 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg md:rounded-xl group",
+                "photo-card relative h-28 w-36 md:h-44 md:w-72 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg md:rounded-xl group",
                 "border border-white/10 bg-black/20",
                 "transition-all duration-300 ease-in-out",
                 "hover:border-neon-blue/60 hover:shadow-[0_0_15px_rgba(0,243,255,0.3)]",
                 "focus:border-neon-blue/80 focus:shadow-[0_0_20px_rgba(0,243,255,0.4)]",
                 "shadow-lg"
             )}
-            onMouseEnter={() => setIsFocused(true)}
-            onMouseLeave={() => setIsFocused(false)}
-            onClick={() => setIsFocused(!isFocused)}
             tabIndex={0}
         >
             {/* Refined border glow effect */}
@@ -98,66 +64,57 @@ const PhotoCard = ({ src, index }) => {
                 "shadow-[0_0_8px_rgba(0,243,255,0.2)] group-hover:shadow-[0_0_12px_rgba(0,243,255,0.3)]",
                 "group-focus:shadow-[0_0_16px_rgba(0,243,255,0.4)]"
             )} />
-            
+
             <img
                 src={src}
                 alt={`JStarc Team ${index + 1}`}
+                loading="lazy"
                 className={cn(
                     "h-full w-full object-cover transition-all duration-300 ease-in-out",
-                    "filter brightness-90 group-hover:brightness-110",
-                    "transform-gpu will-change-transform",
-                    {
-                        "scale-110": isZoomed, // 10% zoom on scroll trigger
-                        "scale-105": isFocused && !isZoomed // Subtle zoom on focus
-                    }
+                    "filter brightness-90 group-hover:brightness-110 group-hover:scale-105",
+                    "transform-gpu will-change-transform"
                 )}
-                style={{
-                    filter: isFocused ? 'brightness(110%)' : 'brightness(90%) blur(0px)',
-                    willChange: 'transform, filter'
-                }}
             />
-            
-            {/* Focus indicator */}
-            {isFocused && (
-                <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 via-transparent to-neon-purple/10 pointer-events-none" />
-            )}
+
+            {/* Focus indicator — CSS-only via group-hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-neon-blue/10 via-transparent to-neon-purple/10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
     );
-};
+});
+
+PhotoCard.displayName = "PhotoCard";
 
 export const MarqueeGallery = () => {
     const [firstRow, setFirstRow] = useState([]);
     const [secondRow, setSecondRow] = useState([]);
 
-    useEffect(() => {
-        const fetchPhotos = async () => {
-            try {
-                const res = await fetch("/api/marquee", { cache: "no-store" });
-                const data = await res.json();
-                
-                let photosToUse = [];
-                if (data.files && data.files.length > 0) {
-                    photosToUse = data.files.map(f => f.src);
-                } else {
-                    photosToUse = jstarcPhotos; // Fallback
-                }
+    const fetchPhotos = useCallback(async () => {
+        try {
+            const res = await fetch("/api/marquee", { cache: "no-store" });
+            const data = await res.json();
 
-                const mid = Math.ceil(photosToUse.length / 2);
-                setFirstRow(photosToUse.slice(0, mid));
-                setSecondRow(photosToUse.slice(mid));
-            } catch (e) {
-                console.error("Failed to fetch marquee photos", e);
-                // Fallback on error
-                const mid = Math.ceil(jstarcPhotos.length / 2);
-                setFirstRow(jstarcPhotos.slice(0, mid));
-                setSecondRow(jstarcPhotos.slice(mid));
+            let photosToUse = [];
+            if (data.files && data.files.length > 0) {
+                photosToUse = data.files.map(f => f.src);
+            } else {
+                photosToUse = jstarcPhotos; // Fallback
             }
-        };
 
-        fetchPhotos();
-        const interval = setInterval(fetchPhotos, 3000);
-        return () => clearInterval(interval);
+            const mid = Math.ceil(photosToUse.length / 2);
+            setFirstRow(photosToUse.slice(0, mid));
+            setSecondRow(photosToUse.slice(mid));
+        } catch {
+            // Silent fallback — no console.error in production
+            const mid = Math.ceil(jstarcPhotos.length / 2);
+            setFirstRow(jstarcPhotos.slice(0, mid));
+            setSecondRow(jstarcPhotos.slice(mid));
+        }
     }, []);
+
+    // Single fetch on mount — NO setInterval
+    useEffect(() => {
+        fetchPhotos();
+    }, [fetchPhotos]);
 
     return (
         <section className="py-12 relative overflow-hidden">
@@ -170,10 +127,10 @@ export const MarqueeGallery = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-8"
                 >
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white mb-4 text-glow">
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight mb-4 text-[#121212]">
                         Award Winning <span className="text-neon-blue text-glow-blue">Demonstration Team</span>
                     </h2>
-                    <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+                    <p className="text-slate-600 text-lg max-w-2xl mx-auto">
                         Our elite team showcasing precision, power, and passion in every performance.
                     </p>
                 </motion.div>

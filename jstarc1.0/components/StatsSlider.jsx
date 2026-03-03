@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./StatsSlider.css";
@@ -46,6 +46,38 @@ const defaultSlides = [
     },
 ];
 
+// Memoized card component to prevent duplicate renders
+const StatsCard = React.memo(({ slide, index, total, cardRef }) => {
+    return (
+        <div
+            className="stats-deck-card"
+            ref={cardRef}
+        >
+            {slide.img && (
+                <img
+                    className="stats-deck-card-bg"
+                    src={slide.img}
+                    alt={slide.label}
+                    loading="lazy"
+                />
+            )}
+            <div className="stats-deck-card-overlay" />
+            <span className="stats-deck-idx">
+                {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+            </span>
+            <div className="stats-deck-card-content">
+                {slide.number && (
+                    <div className="stats-deck-number">{slide.number}</div>
+                )}
+                <div className="stats-deck-label">{slide.label}</div>
+                <p className="stats-deck-desc">{slide.desc}</p>
+            </div>
+        </div>
+    );
+});
+
+StatsCard.displayName = "StatsCard";
+
 export const StatsSlider = () => {
     const sectionRef = useRef(null);
     const deckRef = useRef(null);
@@ -69,14 +101,14 @@ export const StatsSlider = () => {
                     }));
                     setSlides(updatedSlides);
                 }
-            } catch (err) {
-                console.error("Failed to fetch gallery for StatsSlider:", err);
+            } catch {
+                // Silent fallback — slides will show without background images
             }
         };
         fetchImages();
     }, []);
 
-    // Animation Effect
+    // Animation Effect — increased scroll threshold by ~37.5%
     useEffect(() => {
         if (!sectionRef.current || !deckRef.current || !slides[0].img) return;
 
@@ -98,7 +130,9 @@ export const StatsSlider = () => {
                     });
                 });
 
-                const totalScrollVh = total * 80;
+                // Increased from total * 80 to total * 110 (37.5% increase)
+                // This reduces accidental page-flip advances
+                const totalScrollVh = total * 110;
 
                 ScrollTrigger.create({
                     trigger: sectionRef.current,
@@ -181,31 +215,13 @@ export const StatsSlider = () => {
 
             <div className="stats-deck-sticky" ref={deckRef}>
                 {slides.map((slide, i) => (
-                    <div
+                    <StatsCard
                         key={i}
-                        className="stats-deck-card"
-                        ref={(el) => (cardRefs.current[i] = el)}
-                    >
-                        {slide.img && (
-                            <img
-                                className="stats-deck-card-bg"
-                                src={slide.img}
-                                alt={slide.label}
-                                loading="lazy"
-                            />
-                        )}
-                        <div className="stats-deck-card-overlay" />
-                        <span className="stats-deck-idx">
-                            {String(i + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-                        </span>
-                        <div className="stats-deck-card-content">
-                            {slide.number && (
-                                <div className="stats-deck-number">{slide.number}</div>
-                            )}
-                            <div className="stats-deck-label">{slide.label}</div>
-                            <p className="stats-deck-desc">{slide.desc}</p>
-                        </div>
-                    </div>
+                        slide={slide}
+                        index={i}
+                        total={slides.length}
+                        cardRef={(el) => (cardRefs.current[i] = el)}
+                    />
                 ))}
             </div>
 

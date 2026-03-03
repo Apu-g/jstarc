@@ -6,7 +6,7 @@
 
 .masters-scroll-wrapper {
     position: relative;
-    background: #111;
+    background: var(--dark-bg-alt, #111);
     overflow: hidden;
 }
 
@@ -14,8 +14,8 @@
 .masters-scroll-header {
     position: relative;
     width: 100%;
-    padding: 80px 48px 40px;
-    background: #111;
+    padding: clamp(2.5rem, 5vw, 5rem) clamp(1.25rem, 3vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
+    background: var(--dark-bg-alt, #111);
     text-align: center;
     z-index: 5;
 }
@@ -25,10 +25,10 @@
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 4px;
-    color: #FBFF48;
+    color: var(--neo-yellow, #FBFF48);
     display: inline-block;
     background: rgba(251, 255, 72, 0.1);
-    border: 1px solid rgba(251, 255, 72, 0.3);
+    border: 1px solid var(--border-accent, rgba(251, 255, 72, 0.3));
     padding: 6px 16px;
     font-weight: 700;
     margin-bottom: 16px;
@@ -37,7 +37,7 @@
 .masters-scroll-header-title {
     font-family: 'Aboreto', var(--font-display, 'Space Grotesk'), sans-serif;
     font-size: clamp(2rem, 5vw, 4.5rem);
-    color: #fff;
+    color: var(--text-on-dark, #fff);
     font-weight: 400;
     letter-spacing: 0.05em;
 }
@@ -47,9 +47,9 @@
     display: flex;
     align-items: center;
     min-height: 100vh;
-    padding: 60px 48px;
+    padding: clamp(1.5rem, 4vw, 3.75rem) clamp(1rem, 3vw, 3rem);
     position: relative;
-    gap: 48px;
+    gap: clamp(1.5rem, 3vw, 3rem);
     perspective: 1000px;
 }
 
@@ -59,11 +59,11 @@
 }
 
 .masters-scroll-section:nth-of-type(1) {
-    background-color: #1a1a1a;
+    background-color: var(--dark-card, #1a1a1a);
 }
 
 .masters-scroll-section:nth-of-type(2) {
-    background-color: #0d0d0d;
+    background-color: var(--dark-card-alt, #0d0d0d);
 }
 
 /* Decorative line between sections */
@@ -83,7 +83,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 20px;
+    gap: 1.25rem;
     z-index: 5;
     will-change: transform, opacity;
 }
@@ -93,10 +93,10 @@
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 4px;
-    color: #FBFF48;
+    color: var(--neo-yellow, #FBFF48);
     display: inline-block;
     background: rgba(251, 255, 72, 0.1);
-    border: 1px solid rgba(251, 255, 72, 0.3);
+    border: 1px solid var(--border-accent, rgba(251, 255, 72, 0.3));
     padding: 6px 16px;
     font-weight: 700;
     width: fit-content;
@@ -106,7 +106,7 @@
     font-family: 'Aboreto', var(--font-display, 'Space Grotesk'), sans-serif;
     font-size: clamp(2rem, 4.5vw, 4rem);
     font-weight: 400;
-    color: #fff;
+    color: var(--text-on-dark, #fff);
     line-height: 1.1;
     letter-spacing: 0.02em;
 }
@@ -115,20 +115,20 @@
     font-family: var(--font-mono, 'JetBrains Mono'), monospace;
     font-size: 0.8rem;
     font-weight: 700;
-    color: #FF2A2A;
+    color: var(--neo-red, #FF2A2A);
     text-transform: uppercase;
     letter-spacing: 2px;
     display: inline-block;
     background: rgba(255, 42, 42, 0.1);
     padding: 5px 12px;
-    border: 1px solid rgba(255, 42, 42, 0.3);
+    border: 1px solid var(--border-red, rgba(255, 42, 42, 0.3));
     width: fit-content;
 }
 
 .ms-quote {
     font-family: 'Inter', var(--font-display, 'Space Grotesk'), sans-serif;
     font-size: clamp(0.875rem, 1.2vw, 1.1rem);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-muted, rgba(255, 255, 255, 0.6));
     line-height: 1.8;
     max-width: 480px;
     text-wrap: balance;
@@ -140,21 +140,23 @@
     font-weight: 700;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     text-decoration: none;
-    color: #121212;
-    background: #FBFF48;
-    border: 2px solid #fff;
-    padding: 12px 24px;
+    color: var(--text-primary, #121212);
+    background: var(--neo-yellow, #FBFF48);
+    border: 2px solid var(--text-on-dark, #fff);
+    padding: 0.75rem 1.5rem;
+    min-height: 48px;
+    min-width: 48px;
     transition: all 0.3s ease;
     width: fit-content;
 }
 
 .ms-cta:hover {
-    background: #FF70A6;
+    background: var(--neo-pink, #FF70A6);
     transform: translate(2px, 2px);
 }
 
@@ -170,7 +172,7 @@
     max-width: 500px;
     aspect-ratio: 3/4;
     overflow: hidden;
-    border: 3px solid rgba(255, 255, 255, 0.15);
+    border: 3px solid var(--border-subtle, rgba(255, 255, 255, 0.15));
     will-change: transform, opacity;
     transition: border-color 0.4s ease;
 }
@@ -195,11 +197,11 @@
 @media (max-width: 992px) {
     .masters-scroll-section {
         flex-direction: column-reverse !important;
-        padding: 40px 20px;
-        gap: 24px;
+        padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 1.25rem);
+        gap: 1.5rem;
         min-height: auto;
-        padding-top: 60px;
-        padding-bottom: 60px;
+        padding-top: 3.75rem;
+        padding-bottom: 3.75rem;
     }
 
     .ms-img-box {
@@ -217,13 +219,13 @@
     }
 
     .masters-scroll-header {
-        padding: 60px 20px 30px;
+        padding: clamp(2rem, 4vw, 3.75rem) clamp(1rem, 3vw, 1.25rem) clamp(1rem, 2vw, 1.875rem);
     }
 }
 
 @media (max-width: 480px) {
     .masters-scroll-section {
-        padding: 30px 16px;
+        padding: 1.875rem 1rem;
     }
 
     .ms-img-box {

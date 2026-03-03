@@ -62,8 +62,8 @@ export const WhyChooseUs = () => {
                     }));
                     setLines(updatedLines);
                 }
-            } catch (err) {
-                console.error("Failed to fetch gallery for WhyChooseUs:", err);
+            } catch {
+                // Silent fallback — default lines remain without images
             }
         };
         fetchImages();
@@ -138,6 +138,7 @@ export const WhyChooseUs = () => {
                                 <img
                                     src={line.img}
                                     alt=""
+                                    loading="lazy"
                                     style={{ width: line.imgW }}
                                 />
                             )}

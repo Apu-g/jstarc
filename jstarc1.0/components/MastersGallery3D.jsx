@@ -16,26 +16,141 @@ const CONFIG = {
     idleResumeDelay: 4000,
 };
 
-const MastersGallery3D = () => {
+// ─── Mobile-only: Clean auto-sliding card view ───
+const MastersMobileView = ({ masters }) => {
+    const [activeIndex, setActiveIndex] = useState(0);
+    const touchStartX = useRef(0);
+    const autoTimerRef = useRef(null);
+    const pauseTimerRef = useRef(null);
+    const isPaused = useRef(false);
+
+    // Auto-advance — pauses on manual swipe, resumes after 5s
+    useEffect(() => {
+        const startAuto = () => {
+            if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+            autoTimerRef.current = setInterval(() => {
+                if (!isPaused.current) {
+                    setActiveIndex((prev) => (prev + 1) % masters.length);
+                }
+            }, 3000);
+        };
+        startAuto();
+        return () => {
+            if (autoTimerRef.current) clearInterval(autoTimerRef.current);
+            if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+        };
+    }, [masters.length]);
+
+    const pauseAutoAndResume = () => {
+        isPaused.current = true;
+        if (pauseTimerRef.current) clearTimeout(pauseTimerRef.current);
+        pauseTimerRef.current = setTimeout(() => {
+            isPaused.current = false;
+        }, 5000);
+    };
+
+    const goTo = (idx) => {
+        setActiveIndex(idx);
+        pauseAutoAndResume();
+    };
+
+    const goNext = () => {
+        setActiveIndex((prev) => (prev + 1) % masters.length);
+        pauseAutoAndResume();
+    };
+
+    const goPrev = () => {
+        setActiveIndex((prev) => (prev - 1 + masters.length) % masters.length);
+        pauseAutoAndResume();
+    };
+
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = (e) => {
+        const diff = touchStartX.current - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 30) {
+            if (diff > 0) {
+                goNext(); // Swipe left → next
+            } else {
+                goPrev(); // Swipe right → prev
+            }
+        }
+    };
+
+    const master = masters[activeIndex];
+
+    return (
+        <div className="masters-mobile-wrapper">
+            <div className="masters-mobile-title-bar">
+                <span className="masters-mobile-tag">Meet Our Masters</span>
+            </div>
+
+            <div
+                className="masters-mobile-card-area"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                style={{ touchAction: 'pan-y' }}
+            >
+                {/* Master Photo */}
+                <div className="masters-mobile-photo-container" key={activeIndex}>
+                    <img
+                        src={master.src}
+                        alt={master.name}
+                        className="masters-mobile-photo"
+                        draggable={false}
+                    />
+                </div>
+
+                {/* Master Info */}
+                <div className="masters-mobile-info" key={`info-${activeIndex}`}>
+                    <span className="masters-mobile-number">
+                        {String(activeIndex + 1).padStart(2, "0")} / {String(masters.length).padStart(2, "0")}
+                    </span>
+                    <h2 className="masters-mobile-name">{master.name}</h2>
+                    <p className="masters-mobile-rank">{master.designation}</p>
+                    {master.quote && (
+                        <p className="masters-mobile-quote">&ldquo;{master.quote}&rdquo;</p>
+                    )}
+                </div>
+            </div>
+
+            {/* Left / Right arrows + Dots */}
+            <div className="masters-mobile-nav">
+                <button className="masters-mobile-arrow" onClick={goPrev} aria-label="Previous master">
+                    ‹
+                </button>
+                <div className="masters-mobile-dots">
+                    {masters.map((_, i) => (
+                        <button
+                            key={i}
+                            className={`masters-mobile-dot ${i === activeIndex ? "active" : ""}`}
+                            onClick={() => goTo(i)}
+                            aria-label={`Go to master ${i + 1}`}
+                        />
+                    ))}
+                </div>
+                <button className="masters-mobile-arrow" onClick={goNext} aria-label="Next master">
+                    ›
+                </button>
+            </div>
+
+            <p className="masters-mobile-hint">Swipe or tap arrows</p>
+        </div>
+    );
+};
+
+// ─── Desktop: Full 3D Three.js Gallery (unchanged) ───
+const MastersDesktopView = ({ masters }) => {
     const canvasRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [masters, setMasters] = useState([]);
     const scrollRef = useRef({ current: 0, target: 0 });
     const mouseRef = useRef({ x: 0, y: 0 });
     const snapTimerRef = useRef(null);
     const autoTimerRef = useRef(null);
     const idleTimerRef = useRef(null);
     const isUserScrolling = useRef(false);
-
-    // Fetch masters from API
-    useEffect(() => {
-        fetch('/api/admin/masters')
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data) && data.length > 0) setMasters(data);
-            })
-            .catch(err => console.error('Failed to fetch masters:', err));
-    }, []);
 
     const slideCount = masters.length;
     const totalGalleryWidth = slideCount * CONFIG.spacingX;
@@ -46,7 +161,6 @@ const MastersGallery3D = () => {
     }, []);
 
     useEffect(() => {
-        if (masters.length === 0) return;
         const container = canvasRef.current;
         if (!container) return;
 
@@ -243,17 +357,6 @@ const MastersGallery3D = () => {
         };
     }, [masters, snapToNearest]);
 
-    if (masters.length === 0) {
-        return (
-            <div className="masters-gallery-wrapper">
-                <div className="masters-gallery-title">Meet Our Masters</div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#999' }}>
-                    Loading masters...
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="masters-gallery-wrapper">
             <div className="masters-gallery-title">Meet Our Masters</div>
@@ -285,6 +388,51 @@ const MastersGallery3D = () => {
             <div className="masters-scroll-hint">Scroll to explore</div>
         </div>
     );
+};
+
+// ─── Main Component: switches between mobile/desktop ───
+const MastersGallery3D = () => {
+    const [masters, setMasters] = useState([]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        // Check screen width
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    useEffect(() => {
+        const fetchMasters = async () => {
+            try {
+                const res = await fetch('/api/admin/masters');
+                const data = await res.json();
+                if (Array.isArray(data) && data.length > 0) setMasters(data);
+            } catch {
+                // Silent fallback
+            }
+        };
+        fetchMasters();
+    }, []);
+
+    if (masters.length === 0) {
+        return (
+            <div className="masters-gallery-wrapper">
+                <div className="masters-gallery-title">Meet Our Masters</div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#999' }}>
+                    Loading masters...
+                </div>
+            </div>
+        );
+    }
+
+    // Mobile: clean card slider | Desktop: 3D gallery
+    if (isMobile) {
+        return <MastersMobileView masters={masters} />;
+    }
+
+    return <MastersDesktopView masters={masters} />;
 };
 
 export default MastersGallery3D;

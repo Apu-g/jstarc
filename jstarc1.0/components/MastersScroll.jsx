@@ -14,9 +14,10 @@ export const MastersScroll = () => {
     const [masters, setMasters] = useState([]);
 
     useEffect(() => {
-        fetch('/api/admin/masters')
-            .then(res => res.json())
-            .then(data => {
+        const fetchMasters = async () => {
+            try {
+                const res = await fetch('/api/admin/masters');
+                const data = await res.json();
                 if (Array.isArray(data)) {
                     // Filter to only show Nilesh and Jai on the homepage
                     let homeMasters = data.filter(master =>
@@ -33,8 +34,11 @@ export const MastersScroll = () => {
 
                     setMasters(homeMasters);
                 }
-            })
-            .catch(err => console.error("Failed to fetch masters:", err));
+            } catch {
+                // Silent fallback — masters section will simply remain empty
+            }
+        };
+        fetchMasters();
     }, []);
 
     useEffect(() => {

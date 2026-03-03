@@ -109,4 +109,4 @@ export const blackbelts = [
         achievements: ["Master Instructor"],
         bio: "A dedicated martial artist with a passion for excellence. Apu has shown remarkable growth and technical proficiency in their journey to Black Belt."
     }
-,];
+    ,];

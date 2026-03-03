@@ -121,26 +121,203 @@
     box-shadow: 4px 4px 0px 0px #000;
 }
 
-@media (max-width: 768px) {
-    .masters-slide-content {
-        top: auto;
-        bottom: 10%;
-        left: 5%;
-        width: 90%;
-        max-width: none;
-        background: rgba(255, 253, 245, 0.95);
-        border: 3px solid #000;
-        padding: 1.5rem;
-        box-shadow: 4px 4px 0 #000;
+/* ═══════════════════════════════════════
+   Mobile Masters Card Slider
+   ═══════════════════════════════════════ */
+
+.masters-mobile-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: #FFFDF5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1rem 1.5rem;
+    overflow: hidden;
+}
+
+.masters-mobile-title-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.masters-mobile-tag {
+    font-family: var(--font-mono, 'JetBrains Mono'), monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #121212;
+    background: #FBFF48;
+    border: 2px solid #000;
+    padding: 5px 14px;
+    font-weight: 700;
+    box-shadow: 2px 2px 0px 0px #000;
+}
+
+.masters-mobile-card-area {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    touch-action: pan-y;
+}
+
+.masters-mobile-photo-container {
+    width: 70vw;
+    max-width: 300px;
+    aspect-ratio: 3/4;
+    border: 3px solid #000;
+    box-shadow: 5px 5px 0px 0px #000;
+    overflow: hidden;
+    background: #eee;
+    animation: masterSlideIn 0.5s ease-out;
+}
+
+@keyframes masterSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px) scale(0.95);
     }
 
-    .masters-slide-content h1 {
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.masters-mobile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+
+.masters-mobile-info {
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+    animation: masterFadeIn 0.5s ease-out 0.1s both;
+}
+
+@keyframes masterFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
     }
 
-    .masters-slide-content .description {
-        font-size: 0.9rem;
-        margin-bottom: 1rem;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+.masters-mobile-number {
+    font-family: var(--font-mono, 'JetBrains Mono'), monospace;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #888;
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+}
+
+.masters-mobile-name {
+    font-family: var(--font-display, 'Space Grotesk'), sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: #121212;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem;
+    line-height: 1;
+}
+
+.masters-mobile-rank {
+    font-family: var(--font-mono, 'JetBrains Mono'), monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #FF2A2A;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 0.5rem;
+}
+
+.masters-mobile-quote {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.5;
+    font-style: italic;
+    margin: 0;
+    padding: 0 0.5rem;
+}
+
+.masters-mobile-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+.masters-mobile-arrow {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #000;
+    background: #FFFDF5;
+    color: #121212;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px 0px #000;
+    transition: all 0.15s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.masters-mobile-arrow:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+    background: #FBFF48;
+}
+
+.masters-mobile-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.masters-mobile-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    border: 1.5px solid #000;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.masters-mobile-dot.active {
+    background: #FBFF48;
+    transform: scale(1.3);
+    box-shadow: 0 0 0 2px #FBFF48;
+}
+
+.masters-mobile-hint {
+    font-family: var(--font-mono, 'JetBrains Mono'), monospace;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #bbb;
+    margin-top: 0.5rem;
 }
