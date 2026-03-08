@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useLoading } from "@/contexts/LoadingContext";
+import { motion } from "framer-motion";
 import "./HeroClipMask.css";
 
 const HeroClipMask = () => {
@@ -15,7 +16,28 @@ const HeroClipMask = () => {
 
     return (
         <div className="w-full h-screen relative overflow-hidden bg-[#111]">
-            <img src="/assets/1.jpg" alt="JSTARC" className="w-full h-full object-cover" />
+            {/* Mobile Hero Image with Intro Animation */}
+            <div className="w-full h-full md:hidden flex items-center justify-center bg-[#eaeaea] relative">
+                <div className="absolute inset-0 w-full h-full">
+                    <img src="/assets/mobile-hero.png" alt="" className="w-full h-full object-cover blur-xl opacity-50 scale-110" />
+                </div>
+                <motion.img
+                    src="/assets/mobile-hero.png"
+                    alt="JSTARC Mobile"
+                    className="w-full h-auto max-h-[90%] object-contain relative z-10"
+                    initial={{ opacity: 0, scale: 1.05, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                />
+            </div>
+            {/* Desktop Hero Image */}
+            <div className="w-full h-full hidden md:block">
+                <img
+                    src="/assets/1.jpg"
+                    alt="JSTARC Desktop"
+                    className="w-full h-full object-cover"
+                />
+            </div>
             {/* Subtle top vignette */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
             {/* Strong bottom fade into dark masters section */}
