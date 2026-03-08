@@ -219,9 +219,10 @@ export const ConstellationTeam = ({ members }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [focusedMember, setFocusedMember] = useState(null);
 
-    // Spacing configuration
-    const NODE_SPACING = 300;
-    const TOTAL_HEIGHT = members.length * NODE_SPACING + 400;
+    // Dynamic Spacing configuration based on screen width
+    const isMobile = dimensions.width < 768;
+    const NODE_SPACING = isMobile ? 220 : 300;
+    const TOTAL_HEIGHT = members.length * NODE_SPACING + (isMobile ? 250 : 400);
 
     // Update dimensions on resize
     useEffect(() => {
@@ -247,7 +248,7 @@ export const ConstellationTeam = ({ members }) => {
             const side = i % 2 === 0 ? -1 : 1;
             const wobble = Math.sin(i * 0.9) * (baseAmp * 0.18);
             const x = side * baseAmp + wobble;
-            const y = i * NODE_SPACING + 200; // Start offset
+            const y = i * NODE_SPACING + (isDesktop ? 200 : 120); // Start offset responsive
             return { x, y };
         });
     }, [members, dimensions, NODE_SPACING]);
@@ -326,7 +327,7 @@ export const ConstellationTeam = ({ members }) => {
 
             <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden">
                 {/* Header */}
-                <div className="absolute top-20 left-0 w-full text-center z-20 pointer-events-none">
+                <div className="absolute top-10 md:top-20 left-0 w-full text-center z-20 pointer-events-none">
                     <h2 className="text-4xl md:text-6xl font-black text-gray-900 uppercase tracking-tighter mb-2">
                         Black Belts
                     </h2>

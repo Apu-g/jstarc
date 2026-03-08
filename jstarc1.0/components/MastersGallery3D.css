@@ -128,13 +128,13 @@
 .masters-mobile-wrapper {
     position: relative;
     width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* Removed min-height: 100vh to fix excessive space on mobile */
     background-color: #FFFDF5;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem 1rem 1.5rem;
+    padding: 6rem 1rem 4rem;
+    /* Standardized top padding for navbar clearance, and bottom padding */
     overflow: hidden;
 }
 
@@ -142,7 +142,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
+    /* Reduced from 1rem flex force */
 }
 
 .masters-mobile-tag {
@@ -159,13 +160,13 @@
 }
 
 .masters-mobile-card-area {
-    flex: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.5rem;
+    /* Tightened gap between photo and info */
     touch-action: pan-y;
 }
 
@@ -264,7 +265,8 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-top: 0.75rem;
+    margin-top: 1.5rem;
+    /* Consistent spacing from text */
 }
 
 .masters-mobile-arrow {

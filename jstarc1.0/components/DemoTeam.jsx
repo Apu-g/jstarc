@@ -126,9 +126,9 @@ export const DemoTeam = () => {
     }, [radius, dynamicOrbitImages.length]);
 
     return (
-        <section className="py-12 md:py-20 relative overflow-hidden">
+        <section className="py-6 md:py-20 relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
 
                     {/* Left Content - Text */}
                     <motion.div
@@ -149,7 +149,7 @@ export const DemoTeam = () => {
                     </motion.div>
 
                     {/* Right Content - Electron Orbit Animation */}
-                    <div className="relative flex items-center justify-center min-h-[500px]">
+                    <div className="relative flex items-center justify-center min-h-[350px] md:min-h-[500px] mt-4 md:mt-0">
 
                         {/* Center Image - The Girl */}
                         <motion.div
