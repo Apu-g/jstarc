@@ -156,15 +156,12 @@ export const DemoTeam = () => {
                             initial={{ scale: 0, opacity: 0 }}
                             whileInView={{ scale: 1, opacity: 1 }}
                             transition={{ type: "spring", stiffness: 100, delay: 0.2 }}
-                            className="relative z-30 w-52 h-52 md:w-72 md:h-72 rounded-full border-4 border-gray-200 shadow-2xl overflow-hidden"
-                            style={{
-                                boxShadow: "0 0 60px rgba(0,0,0,0.08), 0 0 100px rgba(239,68,68,0.05)"
-                            }}
+                            className="relative z-30 w-64 h-64 md:w-80 md:h-80 flex items-center justify-center pointer-events-none"
                         >
                             <img
                                 src={centerImage}
                                 alt="Demo Team Center"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain drop-shadow-2xl"
                             />
                         </motion.div>
 
