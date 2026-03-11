@@ -176,16 +176,27 @@
 
 /* ── Very small phones (< 380px) ── */
 @media (max-width: 380px) {
-    .text-reveal-word {
-        font-size: clamp(1.5rem, 8vw, 2.2rem);
+    .text-reveal-word.mobile-word {
+        font-size: clamp(1.4rem, 6vw, 2rem) !important;
+        letter-spacing: -0.5px !important;
     }
 
     .text-reveal-img-span {
-        height: 30px !important;
-        max-width: 55px !important;
+        width: 40% !important;
+        height: 110px !important;
+        max-width: none !important;
     }
 
     .text-reveal-img-span img {
-        width: 85px !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        transform: none !important;
+        position: static !important;
+    }
+
+    .text-reveal-line {
+        gap: 0.75rem !important;
+        margin-bottom: 2rem !important;
     }
 }
