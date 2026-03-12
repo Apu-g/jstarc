@@ -2,6 +2,8 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import * as THREE from "three";
+import { AnimatePresence } from "framer-motion";
+import FocusModeOverlay from "./FocusModeOverlay";
 import "./MastersGallery3D.css";
 
 const CONFIG = {
@@ -17,7 +19,7 @@ const CONFIG = {
 };
 
 // ─── Mobile-only: Clean auto-sliding card view ───
-const MastersMobileView = ({ masters }) => {
+const MastersMobileView = ({ masters, onFocus }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const touchStartX = useRef(0);
     const autoTimerRef = useRef(null);
@@ -94,7 +96,11 @@ const MastersMobileView = ({ masters }) => {
                 style={{ touchAction: 'pan-y' }}
             >
                 {/* Master Photo */}
-                <div className="masters-mobile-photo-container" key={activeIndex}>
+                <div 
+                    className="masters-mobile-photo-container cursor-pointer" 
+                    key={activeIndex}
+                    onClick={() => onFocus(master)}
+                >
                     <img
                         src={master.src}
                         alt={master.name}
@@ -142,7 +148,7 @@ const MastersMobileView = ({ masters }) => {
 };
 
 // ─── Desktop: Full 3D Three.js Gallery (unchanged) ───
-const MastersDesktopView = ({ masters }) => {
+const MastersDesktopView = ({ masters, onFocus }) => {
     const canvasRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollRef = useRef({ current: 0, target: 0 });
@@ -236,8 +242,12 @@ const MastersDesktopView = ({ masters }) => {
             group.add(mesh);
             group.add(outline);
             group.add(lines);
+            
+            // For raycasting, mark the mesh as interactive
+            mesh.userData.isInteractive = true;
+            
             galleryGroup.add(group);
-            paintingGroups.push(group);
+            paintingGroups.push({ group, master });
         });
 
         galleryGroup.rotation.y = CONFIG.wallAngleY;
@@ -292,11 +302,42 @@ const MastersDesktopView = ({ masters }) => {
             mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
         };
 
+        const raycaster = new THREE.Raycaster();
+        let pointerDownPos = { x: 0, y: 0 };
+        
+        const handlePointerDown = (e) => {
+            pointerDownPos = { x: e.clientX, y: e.clientY };
+        };
+        
+        const handlePointerUp = (e) => {
+            // Prevent click if user dragged the gallery
+            const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+            if (dist > 10) return;
+            
+            const rect = container.getBoundingClientRect();
+            const clickX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            const clickY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            
+            raycaster.setFromCamera({ x: clickX, y: clickY }, camera);
+            
+            for (let i = 0; i < paintingGroups.length; i++) {
+                const { group, master } = paintingGroups[i];
+                // Intersect the meshes inside the group
+                const intersects = raycaster.intersectObject(group, true);
+                if (intersects.length > 0) {
+                    onFocus(master);
+                    break;
+                }
+            }
+        };
+
         container.addEventListener("wheel", handleWheel, { passive: true });
         container.addEventListener("touchstart", handleTouchStart);
-        container.addEventListener("touchmove", handleTouchMove);
+        container.addEventListener("touchmove", handleTouchMove, { passive: true }); // added passive to fix scroll blocking
         container.addEventListener("touchend", handleTouchEnd);
         window.addEventListener("mousemove", handleMouseMove);
+        container.addEventListener("pointerdown", handlePointerDown);
+        container.addEventListener("pointerup", handlePointerUp);
 
         let animId;
         const animate = () => {
@@ -310,7 +351,7 @@ const MastersDesktopView = ({ masters }) => {
             camera.position.x = xMove;
             camera.position.z = CONFIG.camZ - zMove;
 
-            paintingGroups.forEach((group, i) => {
+            paintingGroups.forEach(({ group }, i) => {
                 const originalX = i * CONFIG.spacingX;
                 const distFromCam = scrollRef.current.current - originalX;
                 const shift =
@@ -345,6 +386,8 @@ const MastersDesktopView = ({ masters }) => {
             container.removeEventListener("touchstart", handleTouchStart);
             container.removeEventListener("touchmove", handleTouchMove);
             container.removeEventListener("touchend", handleTouchEnd);
+            container.removeEventListener("pointerdown", handlePointerDown);
+            container.removeEventListener("pointerup", handlePointerUp);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("resize", handleResize);
             if (snapTimerRef.current) clearTimeout(snapTimerRef.current);
@@ -365,7 +408,8 @@ const MastersDesktopView = ({ masters }) => {
             {masters.map((master, i) => (
                 <div
                     key={master.id}
-                    className={`masters-slide-content ${i === activeIndex ? "active" : ""}`}
+                    className={`masters-slide-content cursor-pointer ${i === activeIndex ? "active" : ""}`}
+                    onClick={() => onFocus(master)}
                 >
                     <span className="catalogue-number">
                         {String(i + 1).padStart(2, "0")} / Masters
@@ -394,8 +438,11 @@ const MastersDesktopView = ({ masters }) => {
 const MastersGallery3D = () => {
     const [masters, setMasters] = useState([]);
     const [isMobile, setIsMobile] = useState(false);
+    const [focusedMaster, setFocusedMaster] = useState(null);
+    const [mounted, setMounted] = useState(false); // To prevent hydration mismatch
 
     useEffect(() => {
+        setMounted(true);
         // Check screen width
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
@@ -416,7 +463,8 @@ const MastersGallery3D = () => {
         fetchMasters();
     }, []);
 
-    if (masters.length === 0) {
+    // Return the empty placeholder state during SSR or before data loads
+    if (!mounted || masters.length === 0) {
         return (
             <div className="masters-gallery-wrapper">
                 <div className="masters-gallery-title">Meet Our Masters</div>
@@ -428,11 +476,23 @@ const MastersGallery3D = () => {
     }
 
     // Mobile: clean card slider | Desktop: 3D gallery
-    if (isMobile) {
-        return <MastersMobileView masters={masters} />;
-    }
+    const GalleryView = isMobile ? MastersMobileView : MastersDesktopView;
 
-    return <MastersDesktopView masters={masters} />;
+    return (
+        <section className="relative w-full">
+            <AnimatePresence>
+                {focusedMaster && (
+                    <FocusModeOverlay
+                        member={focusedMaster}
+                        index={masters.findIndex(m => m.id === focusedMaster.id)}
+                        onClose={() => setFocusedMaster(null)}
+                    />
+                )}
+            </AnimatePresence>
+
+            <GalleryView masters={masters} onFocus={setFocusedMaster} />
+        </section>
+    );
 };
 
 export default MastersGallery3D;

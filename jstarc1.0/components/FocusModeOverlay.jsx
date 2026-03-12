@@ -67,6 +67,9 @@ const FocusModeOverlay = ({ member, index, onClose }) => {
                     <motion.div
                         className="w-full h-full relative"
                         layoutId={`image-container-${member.id}`}
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
                         transition={{
                             type: "spring",
                             stiffness: 300,
@@ -80,6 +83,9 @@ const FocusModeOverlay = ({ member, index, onClose }) => {
                             alt={member.name}
                             className="w-full h-full object-contain will-change-transform"
                             style={{ objectPosition: "center" }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
                             transition={{
                                 type: "spring",
                                 stiffness: 300,
