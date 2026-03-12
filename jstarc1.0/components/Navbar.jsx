@@ -72,7 +72,7 @@ export const Navbar = () => {
                         ))}
                         <Link
                             href="/#contact"
-                            className="px-4 py-1.5 font-[family-name:var(--font-mono)] font-bold text-sm bg-[#FBFF48] border border-black hover:bg-[#FF70A6] transition-colors uppercase"
+                            className="px-4 py-1.5 font-[family-name:var(--font-mono)] font-bold text-sm text-black bg-[#FBFF48] border border-black hover:bg-[#FF70A6] transition-colors uppercase"
                         >
                             JOIN US
                         </Link>
