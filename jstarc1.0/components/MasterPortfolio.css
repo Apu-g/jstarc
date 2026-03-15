@@ -79,7 +79,7 @@
 /* Photo Card */
 .portfolio-photo-card {
     flex-shrink: 0;
-    width: 380px;
+    width: 320px;
     border-radius: 0px;
     overflow: hidden;
     border: 5px solid var(--neo-black);
@@ -90,7 +90,7 @@
 
 .portfolio-photo-card img {
     width: 100%;
-    height: 520px;
+    height: 420px;
     object-fit: cover;
     object-position: top center;
     display: block;
@@ -123,22 +123,19 @@
     font-weight: 900;
     line-height: 1;
     letter-spacing: -0.03em;
-    color: #ffffff;
+    color: var(--neo-black);
     margin-bottom: 20px;
 }
 
 .portfolio-hero-name span {
     display: block;
-    background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.7));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .portfolio-hero-bio {
     font-size: 18px;
     line-height: 1.7;
-    color: #d1d5db; /* gray-300 equivalent */
+    color: var(--neo-black);
+    font-weight: 600;
     max-width: 500px;
     margin-bottom: 32px;
 }
@@ -151,18 +148,18 @@
 
 .portfolio-hero-tag {
     padding: 8px 16px;
-    background: #18181b99; /* zinc-900/60 */
-    backdrop-filter: blur(12px);
-    border: 1px solid #3f3f46; /* zinc-700 */
-    border-radius: 8px;
+    background: #ffffff;
+    border: 2px solid var(--neo-black);
+    border-radius: 0px;
+    box-shadow: 2px 2px 0px 0px var(--neo-black);
     font-size: 13px;
-    color: #a1a1aa; /* zinc-400 */
-    font-weight: 500;
+    color: var(--neo-black);
+    font-weight: 700;
 }
 
 /* --- Section Common --- */
 .portfolio-section {
-    padding: 100px 24px;
+    padding: 60px 24px;
     max-width: 1200px;
     margin: 0 auto;
 }
@@ -202,7 +199,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-    margin-top: -30px; /* pull it closer to the hero */
+    margin-top: 40px; /* changed from -30px to prevent overlap */
 }
 
 .portfolio-stat-card {
@@ -860,7 +857,6 @@
     }
 }
 
-/* ── Infographic Timeline ── */
 .portfolio-infographic-wrapper {
     width: 100vw;
     position: relative;
@@ -871,19 +867,12 @@
     overflow-x: auto;
     overflow-y: hidden;
     padding: 6rem 24px 4rem;
-    margin-bottom: 4rem;
-    scrollbar-width: thin;
-    scrollbar-color: #7c3aed #111;
+    margin-bottom: 2rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 .portfolio-infographic-wrapper::-webkit-scrollbar {
-    height: 8px;
-}
-.portfolio-infographic-wrapper::-webkit-scrollbar-track {
-    background: #111;
-}
-.portfolio-infographic-wrapper::-webkit-scrollbar-thumb {
-    background: #7c3aed;
-    border-radius: 4px;
+    display: none;
 }
 
 .portfolio-infographic-content {
@@ -945,7 +934,7 @@
 .portfolio-bubble > svg, .portfolio-bubble > .icon-wrapper {
     width: 36px;
     height: 36px;
-    color: white;
+    color: var(--neo-black);
     z-index: 2;
 }
 
