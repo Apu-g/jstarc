@@ -31,172 +31,84 @@
 
 .text-reveal-container {
     width: 100%;
-    min-height: 60vh;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: clamp(1rem, 2vw, 2rem) 1rem;
+    align-items: stretch;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
 }
 
 .text-reveal-line {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    width: 100%;
     align-items: center;
-    gap: clamp(0.625rem, 1.5vw, 1.25rem);
-    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    gap: clamp(1.25rem, 4vw, 4rem);
+    margin-bottom: clamp(2.5rem, 5vw, 5rem);
+    flex-wrap: nowrap;
+}
+
+.text-reveal-line:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.text-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
 }
 
 .text-reveal-word {
     font-family: var(--font-display, 'Space Grotesk'), sans-serif;
-    font-size: clamp(2.5rem, 7.5vw, 7.5rem);
-    font-weight: 700;
-    letter-spacing: -3px;
-    display: inline-block;
-    overflow: hidden;
-    color: var(--text-primary, #121212);
+    font-size: clamp(2rem, 6vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -2px;
     line-height: 1.1;
+    color: var(--text-primary, #121212);
+    text-align: left;
+    word-break: break-word;
+}
+
+.text-reveal-line:nth-child(even) .text-group .text-reveal-word {
+    text-align: right;
 }
 
 .text-reveal-img-span {
-    width: 0;
-    border-radius: 0;
+    width: clamp(150px, 45%, 500px);
+    height: clamp(140px, 20vw, 350px);
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
-    display: inline-block;
     flex-shrink: 0;
     border: 3px solid var(--border-dark, #000);
-    box-shadow: 3px 3px 0px 0px var(--border-dark, #000);
+    box-shadow: 4px 4px 0px 0px var(--border-dark, #000);
 }
 
 .text-reveal-img-span img {
+    width: 100%;
     height: 100%;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     object-fit: cover;
-    object-position: center center;
-}
-
-/* ── Mobile Text Group Base ── */
-.mobile-text-group {
-    display: none;
-}
-
-/* ── Mobile: Alternating Left-Right Cards ── */
-@media (max-width: 768px) {
-    .desktop-word {
-        display: none !important;
-    }
-
-    .mobile-text-group {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        flex: 1;
-    }
-
-    .text-reveal-section {
-        min-height: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 4rem 0;
-        overflow: hidden;
-    }
-
-    .text-reveal-container {
-        min-height: auto;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0rem 1.5rem;
-        gap: 0;
-    }
-
-    .text-reveal-line {
-        display: flex !important;
-        flex-direction: row !important;
-        width: 100% !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        gap: 1.25rem !important;
-        margin-bottom: 2.5rem !important;
-        flex-wrap: nowrap !important;
-    }
-
-    /* Alternate the layout for even rows */
-    .text-reveal-line:nth-child(even) {
-        flex-direction: row-reverse !important;
-    }
-
-    .text-reveal-word.mobile-word {
-        font-size: clamp(1.8rem, 6.5vw, 2.5rem) !important;
-        letter-spacing: -1px !important;
-        line-height: 1.1 !important;
-        font-weight: 800 !important;
-        text-align: left !important;
-        overflow: visible !important;
-        word-break: break-word !important;
-    }
-
-    .text-reveal-line:nth-child(even) .mobile-text-group .text-reveal-word.mobile-word {
-        text-align: right !important;
-    }
-
-    .text-reveal-img-span {
-        width: 45% !important;
-        height: 140px !important;
-        max-width: none !important;
-        flex-shrink: 0 !important;
-        border-radius: 12px !important;
-        box-shadow: 4px 4px 0px 0px var(--border-dark, #000) !important;
-        border-width: 3px !important;
-    }
-
-    .text-reveal-img-span img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        transform: none !important;
-        /* Removes desktop translation */
-        position: static !important;
-    }
-
-    .text-reveal-intro {
-        margin-bottom: 1.5rem;
-    }
-
-    .text-reveal-intro-tag {
-        font-size: 0.75rem;
-        padding: 6px 16px;
-    }
+    position: static;
+    transform: none;
 }
 
 /* ── Very small phones (< 380px) ── */
 @media (max-width: 380px) {
-    .text-reveal-word.mobile-word {
-        font-size: clamp(1.4rem, 6vw, 2rem) !important;
-        letter-spacing: -0.5px !important;
+    .text-reveal-word {
+        font-size: clamp(1.4rem, 6vw, 2rem);
+        letter-spacing: -0.5px;
     }
 
     .text-reveal-img-span {
-        width: 40% !important;
-        height: 110px !important;
-        max-width: none !important;
-    }
-
-    .text-reveal-img-span img {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        transform: none !important;
-        position: static !important;
+        width: 40%;
+        height: 110px;
     }
 
     .text-reveal-line {
-        gap: 0.75rem !important;
-        margin-bottom: 2rem !important;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
     }
 }

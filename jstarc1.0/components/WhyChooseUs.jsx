@@ -74,56 +74,33 @@ export const WhyChooseUs = () => {
 
         const ctx = gsap.context(() => {
             const textLines = sectionRef.current.querySelectorAll(".text-reveal-line");
-            let mm = gsap.matchMedia();
+            
+            // --- UNIFIED ANIMATION: Intro & Outro Alternating Flow ---
+            textLines.forEach((line, index) => {
+                const imgSpan = line.querySelector(".text-reveal-img-span");
+                const textGroup = line.querySelector(".text-group");
+                const isEven = index % 2 === 0;
 
-            // --- DESKTOP ANIMATION: Original Width Reveal ---
-            mm.add("(min-width: 769px)", () => {
-                textLines.forEach((line) => {
-                    const imgSpan = line.querySelector(".text-reveal-img-span");
-                    if (imgSpan) {
-                        const targetW = imgSpan.dataset.targetwidth || 300;
-                        gsap.to(imgSpan, {
-                            width: parseInt(targetW),
-                            ease: "none",
-                            scrollTrigger: {
-                                trigger: line,
-                                start: "top 90%",
-                                end: "top 40%",
-                                scrub: 1,
-                            },
-                        });
-                    }
-                });
-            });
+                if (imgSpan && textGroup) {
+                    // Start states
+                    gsap.set([imgSpan, textGroup], { opacity: 0 });
+                    gsap.set(imgSpan, { x: isEven ? -40 : 40 });
+                    gsap.set(textGroup, { x: isEven ? 40 : -40 });
 
-            // --- MOBILE ANIMATION: Intro & Outro Alternating Flow ---
-            mm.add("(max-width: 768px)", () => {
-                textLines.forEach((line, index) => {
-                    const imgSpan = line.querySelector(".text-reveal-img-span");
-                    const textGroup = line.querySelector(".mobile-text-group");
-                    const isEven = index % 2 === 0;
-
-                    if (imgSpan && textGroup) {
-                        // Start states
-                        gsap.set([imgSpan, textGroup], { opacity: 0 });
-                        gsap.set(imgSpan, { x: isEven ? -40 : 40 });
-                        gsap.set(textGroup, { x: isEven ? 40 : -40 });
-
-                        // Scroll trigger handles both intro and outro
-                        gsap.to([imgSpan, textGroup], {
-                            opacity: 1,
-                            x: 0,
-                            duration: 0.8,
-                            ease: "power2.out",
-                            scrollTrigger: {
-                                trigger: line,
-                                start: "top 85%",
-                                end: "bottom 30%",
-                                toggleActions: "play reverse play reverse",
-                            }
-                        });
-                    }
-                });
+                    // Scroll trigger handles both intro and outro
+                    gsap.to([imgSpan, textGroup], {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        ease: "power2.out",
+                        scrollTrigger: {
+                            trigger: line,
+                            start: "top 85%",
+                            end: "bottom 30%",
+                            toggleActions: "play reverse play reverse",
+                        }
+                    });
+                }
             });
 
             // Cinematic blur-in for the whole section (Applies globally)
@@ -162,31 +139,19 @@ export const WhyChooseUs = () => {
             <div className="text-reveal-container">
                 {lines.map((line, i) => (
                     <div key={i} className="text-reveal-line">
-                        {/* Desktop Words - Hidden on Mobile */}
-                        <span className="text-reveal-word desktop-word">{line.before}</span>
-                        <span
-                            className="text-reveal-img-span"
-                            style={{ height: line.imgH }}
-                            data-targetwidth={line.imgW}
-                        >
+                        <span className="text-reveal-img-span">
                             {line.img && (
                                 <img
                                     src={line.img}
                                     alt=""
                                     loading="lazy"
-                                    style={{ width: line.imgW }}
                                 />
                             )}
                         </span>
-                        {/* Desktop Words - Hidden on Mobile */}
-                        {line.after && (
-                            <span className="text-reveal-word desktop-word">{line.after}</span>
-                        )}
-
-                        {/* Mobile Grouped Words - Hidden on Desktop */}
-                        <div className="mobile-text-group">
-                            <span className="text-reveal-word mobile-word">{line.before}</span>
-                            {line.after && <span className="text-reveal-word mobile-word">{line.after}</span>}
+                        
+                        <div className="text-group">
+                            <span className="text-reveal-word">{line.before}</span>
+                            {line.after && <span className="text-reveal-word">{line.after}</span>}
                         </div>
                     </div>
                 ))}

@@ -150,6 +150,12 @@ export const DemoTeam = () => {
 
                     {/* Right Content - Electron Orbit Animation */}
                     <div className="relative flex items-center justify-center min-h-[350px] md:min-h-[500px] mt-4 md:mt-0">
+                        {/* localized Watermark */}
+                        <div className="absolute inset-0 pointer-events-none flex items-center justify-center z-0 overflow-hidden">
+                            <span className="text-[8rem] md:text-[14rem] font-black text-black/[0.04] select-none whitespace-nowrap" style={{ fontFamily: '"Space Grotesk", sans-serif' }}>
+                                JSTARC
+                            </span>
+                        </div>
 
                         {/* Center Image - The Girl */}
                         <motion.div

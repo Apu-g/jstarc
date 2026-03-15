@@ -795,65 +795,93 @@
 
 @media (max-width: 640px) {
     .portfolio-hero {
-        padding: 100px 16px 40px;
+        padding: 40px 16px 20px;
         min-height: auto;
+    }
+    
+    .portfolio-neobrut-container {
+        padding: 30px 20px;
+        margin: 20px auto;
+        border-width: 3px;
+        box-shadow: 8px 8px 0px 0px var(--neo-black);
     }
 
     .portfolio-photo-card {
-        width: 260px;
+        border-width: 3px;
+        box-shadow: 6px 6px 0px 0px var(--neo-black);
     }
-
+    
     .portfolio-photo-card img {
-        height: 340px;
+        height: 300px;
     }
 
     .portfolio-hero-name {
         font-size: 36px;
     }
-
-    .portfolio-hero-bio {
-        font-size: 15px;
-    }
-
-    .portfolio-section {
-        padding: 60px 16px;
-    }
-
-    .portfolio-section-title {
-        font-size: 28px;
-    }
-
+    
     .portfolio-stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+        gap: 12px;
     }
 
     .portfolio-stat-card {
-        padding: 24px 16px;
+        padding: 16px;
+    }
+
+    .portfolio-stat-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
     }
 
     .portfolio-stat-number {
-        font-size: 36px;
+        font-size: 24px;
+        margin-bottom: 4px;
     }
 
-    .portfolio-certs-grid {
-        grid-template-columns: 1fr;
+    .portfolio-stat-suffix {
+        font-size: 16px;
     }
 
-    .portfolio-highlights-grid {
-        grid-template-columns: 1fr;
+    .portfolio-stat-label {
+        font-size: 10px;
     }
 
-    .portfolio-roles-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
+    .portfolio-certs-grid,
+    .portfolio-roles-grid,
+    .portfolio-skills-grid,
+    .portfolio-highlights-grid,
     .portfolio-national-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Target the Timeline Item specific for mobile */
+    .portfolio-timeline {
+        padding-left: 20px;
+    }
+    
+    .portfolio-timeline::before {
+        left: 5px;
+        width: 4px;
+    }
+
+    .portfolio-timeline-item {
+        padding: 0 0 32px 24px;
+    }
+
+    .portfolio-timeline-dot {
+        left: -24px;
+        top: 4px;
+        width: 16px;
+        height: 16px;
+        border-width: 3px;
+    }
+    
+    .portfolio-timeline-title {
+        font-size: 16px;
+    }
+    
+    .portfolio-timeline-org {
+        font-size: 13px;
     }
 }
 
@@ -1066,6 +1094,66 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 0 10px;
+}
+
+/* ── Timeline Adjustments for Mobile (within the @media max-width: 640px if possible, but applied safely here as a new boundary) ── */
+@media (max-width: 640px) {
+    .portfolio-infographic-wrapper {
+        padding: 4rem 12px 2rem;
+    }
+
+    .portfolio-infographic-item {
+        width: 140px;
+        height: 220px;
+        margin-right: 20px;
+    }
+
+    .portfolio-bubble {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+    }
+    
+    .portfolio-bubble > svg, .portfolio-bubble > .icon-wrapper {
+        width: 24px;
+        height: 24px;
+    }
+
+    .portfolio-infographic-line {
+        top: 108px;
+        height: 4px;
+    }
+
+    .portfolio-dot {
+        width: 20px;
+        height: 20px;
+        top: 100px;
+        border-width: 3px;
+    }
+
+    .portfolio-dot-inner {
+        width: 8px;
+        height: 8px;
+    }
+
+    .portfolio-info-bottom {
+        top: 140px;
+    }
+
+    .portfolio-info-top {
+        bottom: 140px;
+    }
+
+    .portfolio-info-year {
+        padding: 4px 10px;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+        border-width: 2px;
+    }
+
+    .portfolio-info-title {
+        font-size: 0.65rem;
+    }
 }
 
 @keyframes marqueeScroll {
