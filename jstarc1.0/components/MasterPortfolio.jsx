@@ -419,8 +419,8 @@ const MasterPortfolio = ({ master }) => {
                 Back to Team
             </Link>
 
-            {/* ── Hero & Stats Glowing Envelope ── */}
-            <div className="portfolio-glowing-container">
+            {/* ── Hero & Stats NeoBrutalist Envelope ── */}
+            <div className="portfolio-neobrut-container">
                 <section className="portfolio-hero">
                     <div className="portfolio-hero-inner">
                         <motion.div
@@ -433,7 +433,6 @@ const MasterPortfolio = ({ master }) => {
                                 src={master.img || master.src}
                                 alt={master.name}
                             />
-                            <div className="portfolio-photo-gradient" />
                         </motion.div>
 
                         <motion.div
@@ -473,7 +472,7 @@ const MasterPortfolio = ({ master }) => {
             <InfographicTimeline items={data.marqueeTimeline} />
 
             {/* ── Certifications ── */}
-            <section className="portfolio-section" style={{ background: "rgba(255,255,255,0.01)" }}>
+            <section className="portfolio-section">
                 <div className="portfolio-section-header">
                     <div className="portfolio-section-tag">Credentials</div>
                     <h2 className="portfolio-section-title">Certifications</h2>
@@ -513,7 +512,7 @@ const MasterPortfolio = ({ master }) => {
             </section>
 
             {/* ── Major Highlights ── */}
-            <section className="portfolio-section" style={{ background: "rgba(255,255,255,0.01)" }}>
+            <section className="portfolio-section">
                 <div className="portfolio-section-header">
                     <div className="portfolio-section-tag">Spotlight</div>
                     <h2 className="portfolio-section-title">Major Highlights</h2>
@@ -541,7 +540,7 @@ const MasterPortfolio = ({ master }) => {
             </section>
 
             {/* ── Current Roles ── */}
-            <section className="portfolio-section" style={{ background: "rgba(255,255,255,0.01)" }}>
+            <section className="portfolio-section">
                 <div className="portfolio-section-header">
                     <div className="portfolio-section-tag">Present</div>
                     <h2 className="portfolio-section-title">Current Roles</h2>
