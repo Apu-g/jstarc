@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Award, Tv, GraduationCap, Shield, Star, MapPin, Briefcase, Medal } from "lucide-react";
 import Link from "next/link";
 import "./MasterPortfolio.css";
 
@@ -151,7 +151,7 @@ const RoleCard = ({ role, index }) => {
     return (
         <div ref={ref} className={`portfolio-role-card scroll-reveal stagger-${(index % 5) + 1}`}>
             <div className="portfolio-role-icon">{role.icon}</div>
-            <div>
+            <div className="portfolio-role-text-content">
                 <div className="portfolio-role-title">{role.title}</div>
                 <div className="portfolio-role-subtitle">{role.subtitle}</div>
             </div>
@@ -170,8 +170,89 @@ const SkillCard = ({ skill, index }) => {
     );
 };
 
+// ─── Infographic Timeline Component (Alternating Top/Bottom) ───
+const InfographicTimeline = ({ items }) => {
+    // We duplicate the items to create a continuous marquee scroll effect
+    const duplicatedItems = [...items, ...items];
+    
+    // Website matching colors instead of violet
+    // We'll map them to the CSS classes "color-1" through "color-4"
+    const colors = ["color-1", "color-2", "color-3", "color-4"];
+    
+    return (
+        <div className="portfolio-infographic-wrapper">
+            <div className="portfolio-infographic-content">
+                <div className="portfolio-infographic-line"></div>
+                {duplicatedItems.map((item, index) => {
+                    const colorClass = colors[index % colors.length];
+                    const isTop = index % 2 === 0;
+
+                    return (
+                        <div key={index} className="portfolio-infographic-item">
+                            {isTop ? (
+                                // TOP ITEM: Bubble above, text below
+                                <>
+                                    {/* Top Bubble */}
+                                    <div className={`portfolio-bubble ${colorClass} top-bubble`}>
+                                        {item.icon}
+                                        <div className="portfolio-bubble-pointer down-pointer"></div>
+                                    </div>
+                                    
+                                    {/* Center Dot */}
+                                    <div className={`portfolio-dot ${colorClass}`}>
+                                        <div className="portfolio-dot-inner"></div>
+                                    </div>
+                                    
+                                    {/* Bottom Info */}
+                                    <div className="portfolio-info-bottom">
+                                        <div className="portfolio-info-year">{item.year}</div>
+                                        <div className="portfolio-info-title">{item.hook}</div>
+                                    </div>
+                                </>
+                            ) : (
+                                // BOTTOM ITEM: Text above, bubble below
+                                <>
+                                    {/* Top Info */}
+                                    <div className="portfolio-info-top">
+                                        <div className="portfolio-info-title">{item.hook}</div>
+                                        <div className="portfolio-info-year">{item.year}</div>
+                                    </div>
+
+                                    {/* Center Dot */}
+                                    <div className={`portfolio-dot ${colorClass}`}>
+                                        <div className="portfolio-dot-inner"></div>
+                                    </div>
+
+                                    {/* Bottom Bubble */}
+                                    <div className={`portfolio-bubble ${colorClass} bottom-bubble`}>
+                                        {item.icon}
+                                        <div className="portfolio-bubble-pointer up-pointer"></div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+};
+
 // ─── Master Data ───
 const JAI_KUMAR_DATA = {
+    marqueeTimeline: [
+        { icon: <Award size={36} />, year: "2010", hook: "International Recognition" },
+        { icon: <Tv size={36} />, year: "2010", hook: "Sony TV Title Winner" },
+        { icon: <Medal size={36} />, year: "2010", hook: "International Medalist" },
+        { icon: <GraduationCap size={36} />, year: "2010", hook: "Instructor Certification" },
+        { icon: <Shield size={36} />, year: "2011", hook: "Martial Arts Expansion" },
+        { icon: <Star size={36} />, year: "2012", hook: "Advanced Martial Arts Rank" },
+        { icon: <MapPin size={36} />, year: "2013", hook: "Cultural Achievement" },
+        { icon: <Shield size={36} />, year: "2015", hook: "Weapon Arts Int. Rank" },
+        { icon: <Star size={36} />, year: "2016", hook: "Master Rank Achievement" },
+        { icon: <Medal size={36} />, year: "2018", hook: "International Championship" },
+        { icon: <Briefcase size={36} />, year: "2019", hook: "Sports Medicine Training" }
+    ],
     stats: [
         { icon: "🏆", value: 5, suffix: "+", label: "International Medals" },
         { icon: "🥋", value: 20, suffix: "+", label: "Years Experience" },
@@ -338,60 +419,58 @@ const MasterPortfolio = ({ master }) => {
                 Back to Team
             </Link>
 
-            {/* ── Hero Section ── */}
-            <section className="portfolio-hero">
-                <div className="portfolio-hero-inner">
-                    <motion.div
-                        className="portfolio-photo-card"
-                        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <img
-                            src={master.img || master.src}
-                            alt={master.name}
-                        />
-                        <div className="portfolio-photo-gradient" />
-                    </motion.div>
+            {/* ── Hero & Stats Glowing Envelope ── */}
+            <div className="portfolio-glowing-container">
+                <section className="portfolio-hero">
+                    <div className="portfolio-hero-inner">
+                        <motion.div
+                            className="portfolio-photo-card"
+                            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                            <img
+                                src={master.img || master.src}
+                                alt={master.name}
+                            />
+                            <div className="portfolio-photo-gradient" />
+                        </motion.div>
 
-                    <motion.div
-                        className="portfolio-hero-info"
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <div className="portfolio-rank-badge">
-                            {master.rank || master.designation}
-                        </div>
-                        <h1 className="portfolio-hero-name">
-                            <span>{master.name}</span>
-                        </h1>
-                        <p className="portfolio-hero-bio">
-                            {master.bio || "A dedicated martial artist with a passion for excellence. Over two decades of mastery in Taekwondo, training thousands of students and representing India on the world stage."}
-                        </p>
-                        <div className="portfolio-hero-tags">
-                            <span className="portfolio-hero-tag">🥋 Taekwondo</span>
-                            <span className="portfolio-hero-tag">🗡️ Korean Sword</span>
-                            <span className="portfolio-hero-tag">🥊 Kickboxing</span>
-                            <span className="portfolio-hero-tag">🏃 Fitness</span>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
+                        <motion.div
+                            className="portfolio-hero-info"
+                            initial={{ opacity: 0, x: 50 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                            <div className="portfolio-rank-badge">
+                                {(master.id === 'jaimaster' || master.id === 'jai') ? "6TH DAN BLACKBELT" : (master.rank || master.designation)}
+                            </div>
+                            <h1 className="portfolio-hero-name">
+                                <span>{master.name}</span>
+                            </h1>
+                            <p className="portfolio-hero-bio">
+                                {master.bio || "A dedicated martial artist with a passion for excellence. Over two decades of mastery in Taekwondo, training thousands of students and representing India on the world stage."}
+                            </p>
+                            <div className="portfolio-hero-tags">
+                                <span className="portfolio-hero-tag">🥋 Taekwondo</span>
+                                <span className="portfolio-hero-tag">🗡️ Korean Sword</span>
+                                <span className="portfolio-hero-tag">🥊 Kickboxing</span>
+                                <span className="portfolio-hero-tag">🏃 Fitness</span>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
 
-            {/* ── Quick Stats ── */}
-            <section className="portfolio-section">
-                <div className="portfolio-section-header">
-                    <div className="portfolio-section-tag">At a Glance</div>
-                    <h2 className="portfolio-section-title">Quick Stats</h2>
-                    <div className="portfolio-section-divider" />
-                </div>
-                <div className="portfolio-stats-grid">
+                {/* Quick Stats placed inside the glowing hero-about box like the reference */}
+                <div className="portfolio-stats-grid" style={{ padding: "0 24px" }}>
                     {data.stats.map((stat, i) => (
                         <StatCard key={i} {...stat} />
                     ))}
                 </div>
-            </section>
+            </div>
+
+            {/* ── Infographic Timeline ── */}
+            <InfographicTimeline items={data.marqueeTimeline} />
 
             {/* ── Certifications ── */}
             <section className="portfolio-section" style={{ background: "rgba(255,255,255,0.01)" }}>

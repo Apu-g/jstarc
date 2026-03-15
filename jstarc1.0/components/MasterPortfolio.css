@@ -42,16 +42,28 @@
     transform: translateX(-4px);
 }
 
+.portfolio-glowing-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    border-radius: 24px;
+    border: 5px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    background: linear-gradient(to bottom right, #0a0a0a, #111111, #1a1a1a);
+    padding: 60px 48px;
+    position: relative;
+    z-index: 10;
+}
+
 /* --- Hero Section --- */
 .portfolio-hero {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: auto; /* Reduced from 100vh since it's now wrapped in a box */
     padding: 80px 24px 60px;
-    gap: 48px;
-    background: linear-gradient(135deg, #0a0a0a 0%, #111111 50%, #0d0d0d 100%);
+    background: transparent;
 }
 
 .portfolio-hero::before {
@@ -62,8 +74,8 @@
     right: 0;
     bottom: 0;
     background:
-        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(124, 58, 237, 0.08), transparent),
-        radial-gradient(ellipse 500px 350px at 80% 70%, rgba(251, 255, 72, 0.04), transparent);
+        radial-gradient(ellipse 600px 400px at 20% 30%, rgba(255, 215, 0, 0.08), transparent),
+        radial-gradient(ellipse 500px 350px at 80% 70%, rgba(255, 215, 0, 0.04), transparent);
     pointer-events: none;
 }
 
@@ -71,7 +83,6 @@
     display: flex;
     align-items: center;
     gap: 64px;
-    max-width: 1200px;
     width: 100%;
     position: relative;
     z-index: 1;
@@ -83,10 +94,10 @@
     width: 380px;
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.2);
     box-shadow:
         0 25px 60px rgba(0, 0, 0, 0.5),
-        0 0 80px rgba(124, 58, 237, 0.1);
+        0 0 80px rgba(255, 215, 0, 0.1);
     position: relative;
     background: #111;
 }
@@ -117,15 +128,15 @@
 .portfolio-rank-badge {
     display: inline-block;
     padding: 6px 18px;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(124, 58, 237, 0.05));
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    border-radius: 50px;
-    font-size: 12px;
+    background: #1f1f1f; /* zinc-800 equivalent */
+    border: 1px solid #3f3f46; /* zinc-700 equivalent */
+    border-radius: 16px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #a78bfa;
-    margin-bottom: 20px;
+    color: #ffd700;
+    margin-bottom: 24px;
 }
 
 .portfolio-hero-name {
@@ -149,7 +160,7 @@
 .portfolio-hero-bio {
     font-size: 18px;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.6);
+    color: #d1d5db; /* gray-300 equivalent */
     max-width: 500px;
     margin-bottom: 32px;
 }
@@ -162,11 +173,12 @@
 
 .portfolio-hero-tag {
     padding: 8px 16px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #18181b99; /* zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* zinc-700 */
     border-radius: 8px;
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #a1a1aa; /* zinc-400 */
     font-weight: 500;
 }
 
@@ -183,11 +195,10 @@
 }
 
 .portfolio-section-tag {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #a78bfa;
+    color: #ffd700;
     margin-bottom: 12px;
 }
 
@@ -203,7 +214,7 @@
 .portfolio-section-divider {
     width: 60px;
     height: 3px;
-    background: linear-gradient(90deg, #7c3aed, #a78bfa);
+    background: linear-gradient(90deg, #ffd700, #d4af37);
     margin: 0 auto;
     border-radius: 2px;
 }
@@ -213,50 +224,37 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+    margin-top: -30px; /* pull it closer to the hero */
 }
 
 .portfolio-stat-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
     border-radius: 20px;
-    padding: 40px 28px;
+    padding: 30px;
     text-align: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-}
-
-.portfolio-stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #7c3aed, transparent);
-    opacity: 0;
-    transition: opacity 0.4s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-stat-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(124, 58, 237, 0.2);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
     transform: translateY(-4px);
-}
-
-.portfolio-stat-card:hover::before {
-    opacity: 1;
+    border-color: #ffd700;
 }
 
 .portfolio-stat-icon {
     font-size: 36px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     display: block;
 }
 
 .portfolio-stat-number {
     font-family: 'Outfit', sans-serif;
-    font-size: 48px;
+    font-size: 40px;
     font-weight: 900;
     color: #ffffff;
     line-height: 1;
@@ -265,15 +263,13 @@
 
 .portfolio-stat-suffix {
     font-size: 28px;
-    color: #a78bfa;
+    color: #ffd700;
 }
 
 .portfolio-stat-label {
     font-size: 14px;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    color: #a1a1aa; /* text-zinc-400 */
 }
 
 /* --- Certifications --- */
@@ -284,13 +280,15 @@
 }
 
 .portfolio-cert-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
     border-radius: 16px;
     padding: 32px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-cert-card::after {
@@ -300,15 +298,15 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #7c3aed, transparent);
+    background: linear-gradient(90deg, #ffd700, transparent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s ease;
 }
 
 .portfolio-cert-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(124, 58, 237, 0.2);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
+    border-color: #ffd700;
     transform: translateY(-6px);
 }
 
@@ -326,20 +324,20 @@
 
 .portfolio-cert-subtitle {
     font-size: 14px;
-    color: #a78bfa;
+    color: #ffd700;
     font-weight: 600;
     margin-bottom: 12px;
 }
 
 .portfolio-cert-org {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #a1a1aa; /* text-zinc-400 */
     margin-bottom: 4px;
 }
 
 .portfolio-cert-location {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.35);
+    color: #71717a; /* text-zinc-500 */
     font-weight: 500;
 }
 
@@ -351,17 +349,19 @@
 }
 
 .portfolio-achievement-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
     border-radius: 16px;
     padding: 32px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-achievement-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(251, 191, 36, 0.2);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
+    border-color: #ffd700;
     transform: translateY(-4px);
 }
 
@@ -370,12 +370,12 @@
     align-items: center;
     gap: 8px;
     padding: 6px 14px;
-    background: rgba(251, 191, 36, 0.1);
-    border: 1px solid rgba(251, 191, 36, 0.2);
+    background: rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.2);
     border-radius: 50px;
     font-size: 11px;
     font-weight: 700;
-    color: #fbbf24;
+    color: #ffd700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-bottom: 16px;
@@ -391,13 +391,13 @@
 
 .portfolio-achievement-desc {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #a1a1aa; /* text-zinc-400 */
     line-height: 1.6;
 }
 
 .portfolio-achievement-year {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.35);
+    color: #71717a; /* text-zinc-500 */
     margin-top: 12px;
     font-weight: 500;
 }
@@ -410,14 +410,16 @@
 }
 
 .portfolio-highlight-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
     border-radius: 20px;
     padding: 36px 28px;
     text-align: center;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-highlight-card::before {
@@ -427,13 +429,14 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.06), transparent 60%);
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.06), transparent 60%);
     opacity: 0;
     transition: opacity 0.4s ease;
 }
 
 .portfolio-highlight-card:hover {
-    border-color: rgba(124, 58, 237, 0.3);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
+    border-color: rgba(255, 215, 0, 0.3);
     transform: translateY(-6px) scale(1.02);
 }
 
@@ -461,7 +464,7 @@
 
 .portfolio-highlight-desc {
     font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    color: #a1a1aa; /* text-zinc-400 */
     line-height: 1.5;
     position: relative;
     z-index: 1;
@@ -469,7 +472,7 @@
 
 .portfolio-highlight-sub {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.3);
+    color: #71717a; /* text-zinc-500 */
     margin-top: 8px;
     position: relative;
     z-index: 1;
@@ -541,7 +544,7 @@
 /* --- Current Roles --- */
 .portfolio-roles-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 3 columns matches the template's tool box better */
     gap: 20px;
 }
 
@@ -549,47 +552,67 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
-    padding: 24px;
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
+    border-radius: 12px;
+    padding: 16px;
     transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-role-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(124, 58, 237, 0.2);
-    transform: translateX(8px);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
+    border-color: #ffd700;
+    transform: translateY(-4px);
 }
 
 .portfolio-role-icon {
     flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(124, 58, 237, 0.05));
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: #27272a; /* bg-zinc-800 */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 32px;
+    padding: 8px;
+    transition: background 0.3s ease;
+}
+
+.portfolio-role-card:hover .portfolio-role-icon {
+    background: #18181b; /* group-hover:bg-zinc-900 */
+}
+
+.portfolio-role-text-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .portfolio-role-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .portfolio-role-subtitle {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
-    margin-top: 2px;
+    font-size: 14px;
+    color: #a1a1aa; /* text-zinc-400 */
+    margin-top: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* --- Skills --- */
 .portfolio-skills-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr); /* Matching the typical lg:grid-cols-4 from the reference */
     gap: 20px;
 }
 
@@ -597,28 +620,46 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 14px;
-    padding: 24px;
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
+    border-radius: 12px;
+    padding: 16px;
     transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-skill-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(124, 58, 237, 0.15);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
+    border-color: #ffd700;
     transform: translateY(-4px);
 }
 
 .portfolio-skill-icon {
-    font-size: 28px;
+    font-size: 32px;
     flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: #27272a; /* bg-zinc-800 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    transition: background 0.3s ease;
+}
+
+.portfolio-skill-card:hover .portfolio-skill-icon {
+    background: #18181b; /* group-hover:bg-zinc-900 */
 }
 
 .portfolio-skill-name {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
     color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* --- National Achievements --- */
@@ -630,18 +671,20 @@
 }
 
 .portfolio-national-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #18181b99; /* bg-zinc-900/60 */
+    backdrop-filter: blur(12px);
+    border: 1px solid #3f3f46; /* border-zinc-700 */
     border-radius: 16px;
     padding: 28px;
     text-align: center;
     transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); /* shadow-lg */
 }
 
 .portfolio-national-card:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(39, 39, 42, 0.8); /* hover:bg-zinc-800/80 */
     transform: translateY(-4px);
-    border-color: rgba(251, 191, 36, 0.2);
+    border-color: #ffd700;
 }
 
 .portfolio-national-icon {
@@ -842,4 +885,228 @@
     .portfolio-national-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* ── Infographic Timeline ── */
+.portfolio-infographic-wrapper {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 6rem 24px 4rem;
+    margin-bottom: 4rem;
+    scrollbar-width: thin;
+    scrollbar-color: #7c3aed #111;
+}
+.portfolio-infographic-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+.portfolio-infographic-wrapper::-webkit-scrollbar-track {
+    background: #111;
+}
+.portfolio-infographic-wrapper::-webkit-scrollbar-thumb {
+    background: #7c3aed;
+    border-radius: 4px;
+}
+
+.portfolio-infographic-content {
+    display: flex;
+    position: relative;
+    width: max-content;
+    padding: 0 40px;
+    animation: marqueeScroll 45s linear infinite;
+}
+
+.portfolio-infographic-content:hover {
+    animation-play-state: paused;
+}
+
+/* The horizontal line */
+.portfolio-infographic-line {
+    position: absolute;
+    top: 156px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, transparent 5%, #ffd700 20%, #ccc 80%, transparent 95%);
+    border-radius: 4px;
+    z-index: 0;
+}
+
+.portfolio-infographic-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    height: 320px;
+    position: relative;
+    z-index: 1;
+    margin-right: 40px;
+}
+
+/* 3D-like Bubbles */
+.portfolio-bubble {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    transition: transform 0.3s ease;
+}
+.portfolio-bubble.top-bubble {
+    top: 20px;
+}
+.portfolio-bubble.bottom-bubble {
+    bottom: 20px;
+}
+.portfolio-bubble:hover {
+    transform: translateY(-5px) scale(1.05);
+}
+.portfolio-bubble > svg, .portfolio-bubble > .icon-wrapper {
+    width: 36px;
+    height: 36px;
+    color: white;
+    z-index: 2;
+}
+
+/* 3D block effect */
+.portfolio-bubble::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 16px;
+    z-index: 1;
+}
+.portfolio-bubble::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 16px;
+    z-index: 0;
+    opacity: 0.8;
+}
+
+/* Pointers connecting bubble to line */
+.portfolio-bubble-pointer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    z-index: 2;
+}
+.down-pointer {
+    bottom: -15px;
+    border-top: 15px solid;
+}
+.up-pointer {
+    top: -15px;
+    border-bottom: 15px solid;
+}
+
+/* Website Colors (Gold, Silver, Bronze, Dark Gray) */
+/* 1: Gold */
+.portfolio-bubble.color-1::before { background: #ffd700; }
+.portfolio-bubble.color-1::after { background: #b8860b; }
+.portfolio-bubble.color-1 .portfolio-bubble-pointer { border-top-color: #ffd700; border-bottom-color: #ffd700; }
+
+/* 2: Silver */
+.portfolio-bubble.color-2::before { background: #e5e5e5; }
+.portfolio-bubble.color-2::after { background: #a3a3a3; }
+.portfolio-bubble.color-2 .portfolio-bubble-pointer { border-top-color: #e5e5e5; border-bottom-color: #e5e5e5; }
+
+/* 3: Bronze */
+.portfolio-bubble.color-3::before { background: #d4af37; }
+.portfolio-bubble.color-3::after { background: #8b6508; }
+.portfolio-bubble.color-3 .portfolio-bubble-pointer { border-top-color: #d4af37; border-bottom-color: #d4af37; }
+
+/* 4: Dark Metallic */
+.portfolio-bubble.color-4::before { background: #52525b; }
+.portfolio-bubble.color-4::after { background: #27272a; }
+.portfolio-bubble.color-4 .portfolio-bubble-pointer { border-top-color: #52525b; border-bottom-color: #52525b; }
+
+/* The Track Dot */
+.portfolio-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+    position: absolute;
+    top: 144px; /* Centered on the 8px line at 156px => 156 + 4 = 160 center. Dot is 32px, so top 160 - 16 = 144px */
+    z-index: 2;
+}
+.portfolio-dot.color-1 { border: 4px solid #ffd700; }
+.portfolio-dot.color-2 { border: 4px solid #e5e5e5; }
+.portfolio-dot.color-3 { border: 4px solid #d4af37; }
+.portfolio-dot.color-4 { border: 4px solid #52525b; }
+
+.portfolio-dot-inner {
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+/* Information Container */
+.portfolio-info-bottom, .portfolio-info-top {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+}
+.portfolio-info-bottom {
+    top: 210px;
+}
+.portfolio-info-top {
+    bottom: 210px;
+}
+
+.portfolio-info-year {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.portfolio-infographic-item:hover .portfolio-info-year {
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.3);
+    color: #ffd700;
+}
+
+.portfolio-info-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 10px;
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-50% - 1rem)); } 
 }

@@ -2,15 +2,15 @@
     {
         "id": "jai",
         "name": "Master Jai Kumar Kannan",
-        "designation": "Head Instructor - 5th Dan Black Belt",
-        "rank": "5th Dan Black Belt",
+        "designation": "Head Instructor - 6th Dan Black Belt",
+        "rank": "6th Dan Black Belt",
         "src": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/jaimaster.jpg",
         "img": "https://jgmwqjepeyjgjsmlkaej.supabase.co/storage/v1/object/public/jstarc-photos/masters/jaimaster.jpg",
         "facePos": "50% 10%",
         "quote": "Dedication and discipline are the pillars of success. Taekwondo is not just a sport, it's a way of life.",
-        "bio": "Head Instructor with over 20 years of experience. 5th Dan Black Belt specializing in traditional Taekwondo values and competitive sparring.",
+        "bio": "Head Instructor with over 20 years of experience. 6th Dan Black Belt specializing in traditional Taekwondo values and competitive sparring.",
         "achievements": [
-            "5th Dan Black Belt",
+            "6th Dan Black Belt",
             "National Referee",
             "State Coach"
         ]
