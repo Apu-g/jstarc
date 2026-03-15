@@ -32,7 +32,7 @@ const enrichMemberData = (member) => ({
     achievements: member.achievements || [],
 });
 
-const FocusModeOverlay = ({ member, index, onClose }) => {
+const FocusModeOverlay = ({ member, index, onClose, layoutPrefix = "focus" }) => {
     // Lock body scroll
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -66,7 +66,7 @@ const FocusModeOverlay = ({ member, index, onClose }) => {
                 >
                     <motion.div
                         className="w-full h-full relative"
-                        layoutId={`image-container-${member.id}`}
+                        layoutId={`${layoutPrefix}-image-container-${member.id}`}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
@@ -78,7 +78,7 @@ const FocusModeOverlay = ({ member, index, onClose }) => {
                         }}
                     >
                         <motion.img
-                            layoutId={`image-${member.id}`}
+                            layoutId={`${layoutPrefix}-image-${member.id}`}
                             src={member.img || member.src}
                             alt={member.name}
                             className="w-full h-full object-contain will-change-transform"

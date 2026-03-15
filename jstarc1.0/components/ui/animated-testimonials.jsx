@@ -42,7 +42,8 @@ export const AnimatedTestimonials = ({
                     <FocusModeOverlay 
                         member={focusedMember} 
                         index={testimonials.findIndex(m => m.id === focusedMember.id)}
-                        onClose={() => setFocusedMember(null)} 
+                        onClose={() => setFocusedMember(null)}
+                        layoutPrefix="testimonials"
                     />
                 )}
             </AnimatePresence>
@@ -83,7 +84,7 @@ export const AnimatedTestimonials = ({
                                     }}
                                     onClick={() => isActive(index) && setFocusedMember(testimonial)}
                                     className={`absolute inset-0 origin-bottom ${isActive(index) ? "cursor-pointer" : ""}`}>
-                                    <motion.div layoutId={`image-${testimonial.id}`} className="h-full w-full">
+                                    <motion.div layoutId={`testimonials-image-${testimonial.id}`} className="h-full w-full">
                                         <Image
                                             src={testimonial.src}
                                             alt={testimonial.name}

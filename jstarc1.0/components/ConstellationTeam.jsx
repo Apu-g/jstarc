@@ -159,7 +159,7 @@ const ConstellationNode = ({ member, xPos, yPos, isActive, onFocus }) => {
                         }}
                     >
                         <motion.img
-                            layoutId={`image-${member.id}`}
+                            layoutId={`constellation-image-${member.id}`}
                             src={member.img}
                             alt={member.name}
                             className="w-full h-full object-cover transition-all duration-500"
@@ -309,6 +309,7 @@ export const ConstellationTeam = ({ members }) => {
                         member={focusedMember}
                         index={focusedIndex}
                         onClose={() => setFocusedMember(null)}
+                        layoutPrefix="constellation"
                     />
                 )}
             </AnimatePresence>

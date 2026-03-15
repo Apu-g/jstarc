@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import * as THREE from "three";
 import { AnimatePresence } from "framer-motion";
 import FocusModeOverlay from "./FocusModeOverlay";
@@ -440,6 +441,17 @@ const MastersGallery3D = () => {
     const [isMobile, setIsMobile] = useState(false);
     const [focusedMaster, setFocusedMaster] = useState(null);
     const [mounted, setMounted] = useState(false); // To prevent hydration mismatch
+    const router = useRouter();
+
+    // Handle master click — navigate to portfolio for Jai, overlay for others
+    const handleMasterFocus = useCallback((master) => {
+        const nameStr = (master.name || "").toLowerCase();
+        if (nameStr.includes("jai")) {
+            router.push(`/master/${master.id}`);
+        } else {
+            setFocusedMaster(master);
+        }
+    }, [router]);
 
     useEffect(() => {
         setMounted(true);
@@ -486,11 +498,12 @@ const MastersGallery3D = () => {
                         member={focusedMaster}
                         index={masters.findIndex(m => m.id === focusedMaster.id)}
                         onClose={() => setFocusedMaster(null)}
+                        layoutPrefix="masters"
                     />
                 )}
             </AnimatePresence>
 
-            <GalleryView masters={masters} onFocus={setFocusedMaster} />
+            <GalleryView masters={masters} onFocus={handleMasterFocus} />
         </section>
     );
 };
