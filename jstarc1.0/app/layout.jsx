@@ -54,6 +54,11 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" className="scroll-pt-28 scroll-smooth">
             <head>
+                <script
+  src="https://quip.wb-roots.com/chatbot.js"
+  data-company-id="0e57b5c9-6940-4aa1-bae6-a2af88b798b7"
+  async
+></script>
                 <link rel="icon" href="/assets/logo.png" />
                 <script
                     type="application/ld+json"
