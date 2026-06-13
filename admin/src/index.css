@@ -877,4 +877,30 @@ textarea.form-input {
     background: var(--bg-card);
     border: 1px solid var(--border);
     overflow: hidden;
-}
+}
+
+/* Logout button */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid rgba(255, 71, 87, 0.35);
+    border-radius: var(--radius-sm);
+    color: var(--danger);
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.logout-btn:hover {
+    background: rgba(255, 71, 87, 0.12);
+    border-color: var(--danger);
+    box-shadow: 0 0 12px rgba(255, 71, 87, 0.15);
+}

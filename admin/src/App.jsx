@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Award, Calendar, Images, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Users, Award, Calendar, Images, Menu, X, LogOut } from 'lucide-react';
 import { useState } from 'react';
-import { UserButton, useUser } from '@clerk/clerk-react';
+import { UserButton, useUser, useClerk } from '@clerk/clerk-react';
 import Dashboard from './pages/Dashboard';
 import Masters from './pages/Masters';
 import BlackBelts from './pages/BlackBelts';
@@ -33,6 +33,7 @@ function SidebarUserInfo() {
 
 function App() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const { signOut } = useClerk();
 
     return (
         <BrowserRouter>
@@ -85,6 +86,14 @@ function App() {
                             />
                             <SidebarUserInfo />
                         </div>
+                        <button
+                            className="logout-btn"
+                            onClick={() => signOut()}
+                            title="Sign out"
+                        >
+                            <LogOut size={15} />
+                            Logout
+                        </button>
                     </div>
                 </aside>
 

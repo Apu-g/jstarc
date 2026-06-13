@@ -1,7 +1,13 @@
 import { useUser, useClerk, SignIn } from '@clerk/clerk-react';
 
-// ✅ Only this email is allowed into the admin panel
-const ALLOWED_ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL;
+// Allowed admin emails — edit VITE_ADMIN_EMAIL_1/2/3 in .env to add/remove people
+const ALLOWED_EMAILS = new Set(
+    [
+        import.meta.env.VITE_ADMIN_EMAIL_1,
+        import.meta.env.VITE_ADMIN_EMAIL_2,
+        import.meta.env.VITE_ADMIN_EMAIL_3,
+    ].filter(Boolean) // ignore blank slots
+);
 
 export default function AuthGuard({ children }) {
     const { isLoaded, isSignedIn, user } = useUser();
@@ -67,7 +73,7 @@ export default function AuthGuard({ children }) {
 
     // Signed in but wrong email → access denied
     const userEmail = user?.primaryEmailAddress?.emailAddress;
-    if (userEmail !== ALLOWED_ADMIN_EMAIL) {
+    if (!ALLOWED_EMAILS.has(userEmail)) {
         return (
             <div className="auth-screen">
                 <div className="auth-card auth-denied">
