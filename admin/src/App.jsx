@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, Award, Calendar, Images, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { UserButton, useUser } from '@clerk/clerk-react';
 import Dashboard from './pages/Dashboard';
 import Masters from './pages/Masters';
 import BlackBelts from './pages/BlackBelts';
@@ -14,6 +15,21 @@ const navItems = [
     { name: 'Events', path: '/events', icon: Calendar },
     { name: 'Gallery', path: '/gallery', icon: Images },
 ];
+
+function SidebarUserInfo() {
+    const { user } = useUser();
+    if (!user) return null;
+    return (
+        <div style={{ overflow: 'hidden' }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {user.firstName || 'Admin'}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {user.primaryEmailAddress?.emailAddress}
+            </div>
+        </div>
+    );
+}
 
 function App() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -55,6 +71,20 @@ function App() {
                         <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" className="view-site-btn">
                             View Live Site →
                         </a>
+                        <div className="sidebar-user">
+                            <UserButton
+                                appearance={{
+                                    elements: {
+                                        avatarBox: { width: 34, height: 34 },
+                                        userButtonPopoverCard: {
+                                            background: 'var(--bg-card)',
+                                            border: '1px solid var(--border)',
+                                        },
+                                    },
+                                }}
+                            />
+                            <SidebarUserInfo />
+                        </div>
                     </div>
                 </aside>
 
