@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Award, Calendar, Images, Menu, X, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Award, Calendar, Images, Menu, X, LogOut, Settings as SettingsIcon } from 'lucide-react';
 import { useState } from 'react';
 import { UserButton, useUser, useClerk } from '@clerk/clerk-react';
 import Dashboard from './pages/Dashboard';
@@ -7,6 +7,8 @@ import Masters from './pages/Masters';
 import BlackBelts from './pages/BlackBelts';
 import Events from './pages/Events';
 import Gallery from './pages/Gallery';
+import Settings from './pages/Settings';
+
 
 const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
@@ -14,7 +16,9 @@ const navItems = [
     { name: 'Black Belts', path: '/blackbelts', icon: Users },
     { name: 'Events', path: '/events', icon: Calendar },
     { name: 'Gallery', path: '/gallery', icon: Images },
+    { name: 'Settings', path: '/settings', icon: SettingsIcon },
 ];
+
 
 function SidebarUserInfo() {
     const { user } = useUser();
@@ -108,6 +112,7 @@ function App() {
                         <Route path="/blackbelts" element={<BlackBelts />} />
                         <Route path="/events" element={<Events />} />
                         <Route path="/gallery" element={<Gallery />} />
+                        <Route path="/settings" element={<Settings />} />
                     </Routes>
                 </main>
             </div>

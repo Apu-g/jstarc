@@ -1,19 +1,32 @@
 import { useUser, useClerk, SignIn } from '@clerk/clerk-react';
-
-// Allowed admin emails — edit VITE_ADMIN_EMAIL_1/2/3 in .env to add/remove people
-const ALLOWED_EMAILS = new Set(
-    [
-        import.meta.env.VITE_ADMIN_EMAIL_1,
-        import.meta.env.VITE_ADMIN_EMAIL_2,
-        import.meta.env.VITE_ADMIN_EMAIL_3,
-    ].filter(Boolean) // ignore blank slots
-);
+import { useState, useEffect } from 'react';
+import { supabase } from './supabase';
 
 export default function AuthGuard({ children }) {
     const { isLoaded, isSignedIn, user } = useUser();
     const { signOut } = useClerk();
+    const [allowedEmails, setAllowedEmails] = useState(null); // null = still fetching
+    const [fetchError, setFetchError] = useState(false);
 
-    // Still loading Clerk session
+    // Fetch allowed emails from Supabase whenever a user is signed in
+    useEffect(() => {
+        if (!isLoaded || !isSignedIn) return;
+
+        supabase
+            .from('admin_settings')
+            .select('email')
+            .then(({ data, error }) => {
+                if (error) {
+                    console.error('AuthGuard: failed to fetch admin_settings', error);
+                    setFetchError(true);
+                } else {
+                    const emails = new Set((data || []).map(r => r.email.toLowerCase().trim()));
+                    setAllowedEmails(emails);
+                }
+            });
+    }, [isLoaded, isSignedIn]);
+
+    // ── 1. Clerk still initializing ─────────────────────────────────────────
     if (!isLoaded) {
         return (
             <div className="auth-loading">
@@ -23,7 +36,7 @@ export default function AuthGuard({ children }) {
         );
     }
 
-    // Not signed in → show Clerk's hosted Sign In UI (Google only)
+    // ── 2. Not signed in → show Clerk Sign In ───────────────────────────────
     if (!isSignedIn) {
         return (
             <div className="auth-screen">
@@ -71,9 +84,41 @@ export default function AuthGuard({ children }) {
         );
     }
 
-    // Signed in but wrong email → access denied
-    const userEmail = user?.primaryEmailAddress?.emailAddress;
-    if (!ALLOWED_EMAILS.has(userEmail)) {
+    // ── 3. Signed in, but still fetching allowed emails ─────────────────────
+    if (allowedEmails === null && !fetchError) {
+        return (
+            <div className="auth-loading">
+                <div className="auth-spinner" />
+                <p>Verifying access...</p>
+            </div>
+        );
+    }
+
+    // ── 4. Could not fetch settings (DB error) ──────────────────────────────
+    if (fetchError) {
+        return (
+            <div className="auth-screen">
+                <div className="auth-card auth-denied">
+                    <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
+                    <h2>Configuration Error</h2>
+                    <p>Could not load admin settings from the database.</p>
+                    <p style={{ marginTop: 8, fontSize: 13, color: 'var(--text-muted)' }}>
+                        Make sure the <code>admin_settings</code> table exists in your Supabase project.
+                    </p>
+                    <button className="btn btn-secondary" style={{ marginTop: 24 }} onClick={() => window.location.reload()}>
+                        Try Again
+                    </button>
+                    <button className="btn btn-danger" style={{ marginTop: 12 }} onClick={() => signOut()}>
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // ── 5. Signed in but email not in allowed list ──────────────────────────
+    const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase().trim();
+    if (!allowedEmails.has(userEmail)) {
         return (
             <div className="auth-screen">
                 <div className="auth-card auth-denied">
@@ -97,6 +142,6 @@ export default function AuthGuard({ children }) {
         );
     }
 
-    // ✅ Authorized — render the app
+    // ── 6. ✅ Authorized — render the app ───────────────────────────────────
     return children;
 }

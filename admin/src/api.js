@@ -194,6 +194,30 @@ export const api = {
         if (error) throw error;
         return { success: true };
     },
+    // ── Admin Settings (allowed emails) ────────────────────────────────────
+    getAdminEmails: async () => {
+        const { data, error } = await supabase
+            .from('admin_settings')
+            .select('email')
+            .order('created_at', { ascending: true });
+        if (error) { console.error('getAdminEmails error:', error); throw error; }
+        return (data || []).map(row => row.email);
+    },
+    addAdminEmail: async (email) => {
+        const { error } = await supabase
+            .from('admin_settings')
+            .insert([{ email: email.trim().toLowerCase() }]);
+        if (error) throw error;
+        return { success: true };
+    },
+    removeAdminEmail: async (email) => {
+        const { error } = await supabase
+            .from('admin_settings')
+            .delete()
+            .eq('email', email.trim().toLowerCase());
+        if (error) throw error;
+        return { success: true };
+    },
 };
 
 // Helper: upload base64 file to Supabase Storage
