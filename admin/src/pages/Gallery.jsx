@@ -29,7 +29,7 @@ export default function Gallery() {
             await api.uploadGalleryPhotos({ photos: photoData });
             showToast(`${photoData.length} photo(s) uploaded!`);
             load();
-        } catch (e) { showToast('Upload failed', 'error'); }
+        } catch (e) { showToast(`Upload failed: ${e.message}`, 'error'); console.error('Gallery upload error:', e); }
         setUploading(false);
     };
 

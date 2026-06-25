@@ -179,7 +179,10 @@ export const api = {
         for (const photo of photos) {
             const url = await uploadFile('gallery', photo.filename, photo.base64);
             const { data, error } = await supabase.from('gallery').insert([{ url, filename: photo.filename }]).select();
-            if (error) console.error('Insert gallery photo error:', error);
+            if (error) {
+                console.error('Insert gallery photo error:', error);
+                throw new Error(error.message || 'Failed to save photo to database');
+            }
             results.push(data);
         }
         return results;
